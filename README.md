@@ -30,3 +30,37 @@ More interactions and views for researchers to select optimization algorithms an
 Multiple and coordinated views will be used to explore and compare different optimization algorithms on one specific objective function or different objective functions on one optimization algorithms.
 More visual clues/hints will be showed to recommend researchers about the status of searching loops, which would be better for researchers to diagnose the relevant optimization algorithm. 
 
+## Reference
+
+[1] Boyd, Stephen, and Lieven Vandenberghe. Convex optimization. Cambridge university press,
+
+2004.
+
+Kingma, Diederik P., and Jimmy Ba. "Adam: A method for stochastic optimization." arXiv preprint
+
+arXiv:1412.6980(2014).
+
+[2] Zeiler, Matthew D. "ADADELTA: an adaptive learning rate method." arXiv preprint arXiv:1212.5701
+
+(2012).
+
+[3] Acerbi, L. & Ma, W. J. (2017). Practical Bayesian Optimization for Model Fitting with Bayesian
+
+Adaptive Direct Search. arXiv preprint, arXiv:1705.04405.
+
+[4] Visualize optimization algorithms in MATLAB: https://github.com/lacerbi/optimviz [5]Visualizing and Animating Optimization Algorithms with Matplotlib:
+
+http://tiao.io/notes/visualizing-and-animating-optimization-algorithms-with-matplotlib/
+
+[6] An Interactive Tutorial on Numerical Optimization:
+
+http://www.benfrederickson.com/numerical-optimization/
+
+[7] Virtual Library of Simulation Experiments: https://www.sfu.ca/~ssurjano/optimization.html
+
+[8] Sebastian Ruder “An overview of gradient descent optimization algorithms∗” arXiv:1609.04747
+
+Blog:http://ruder.io/optimizing-gradient-descent/
+
+
+

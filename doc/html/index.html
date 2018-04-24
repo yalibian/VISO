@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Report</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="css/font-awesome.css"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+
+</head>
+
+<body>
+<div class="container" id="main-view">
+     <div class="content" id="content" role="main">
+
+<h1 id="visml-interactive-visualization-for-machine-learning">Interactive Visualization for Machine Learning</h1>
+<h2 id="motivations">MOTIVATIONS</h2>
+<p>Our main idea is to explore how visualization with interactions [1] could improve the efficiency of communications between human and machine learning: how could interactive visualization could help users create machine learning algorithms effectively and efficiently.</p>
+<h2 id="related-works">RELATED WORKS</h2>
+<p>Before our own design, we have explored the topic through both HCI and machine learning fields, and make a list of comparison of current research in HCI and Machine Learning.</p>
+<h3 id="1-machine-learning">1. Machine Learning:</h3>
+<p>The topic of effective machine learning creation has been explored in different perspectives in the machine learning fields: Active learning [2] tries to using less but the most valuable labels that provides the greatest information gain, evaluating effectiveness and efficiency as the numbers of examples users should label. Machine teaching [3] is an optimization problem over teaching examples that balance the future loss of the learner (machine learning algorithm) and the effort of the teacher. Interactive machine learning [4] tries to improve human teacher by giving teachings guidance, when human training an agent to perform a classification task by showing examples. The interactive machine learning also tries to improve the effectiveness of classifier creation through the efficiency of labeling. The guidance for users could improve the labeling efficiency based on provides users more information, the context about labeling could let users labeling quickly than labeling less examples without any context.<br>
+Since current research on interactive machine learning are mainly works on how to provides users guides based on different presentation techniques based on ranking or neighbors. For our project, we plan to provides more context through visualization and let users labeling and explore dataset interactively.</p>
+<h3 id="2-visual-analytics">2. Visual Analytics:</h3>
+<p>Visual analytics [5] aims at providing visual platforms for users to interact directly with data and models through combining the power of automated data analysis and mining. Visual analytics researchers mainly explore the topic through how to make users effectively expressing their knowledge and preferences visually and interactively to data mining or machine learning methods. The visual classifier training model [6] presents an approach for building classifiers interactively and visually: how classifiers can be trained in a visual and interactive manner to improve recall and generalization for searching and filtering tasks in visual analytics scenarios. The Visual Classifier Training model mainly works on how to build classifiers interactively and visually in order to complement classical supervised machine learning techniques.<br>
+Our project is also about creating a visual classifier training model, but providing more guidance based on interactive machine learning instead of active learning. We will also try to explore how different visualization layout could affect the labeling effect.</p>
+<h2 id="progress">PROGRESS</h2>
+<p>We got our idea of interactive machine learning powered with interactive visualization based on the combination of the visual classifier training model and Effective End-user Interaction with Machine Learning [7]. How could we interact with supervised machine learning in an observation level effectively - letting users explore big dataset and label items, sense-make current machine learning state in on visualization workspace. Instead of using several different visualization views to present the quality of the classifier, the status of the classifiers, the contents of the labels, we create only one visualization view (workspace) to let users explore the dataset and express their preference, and also let classifier re-layout the view to express the status, the quality of the classifiers.</p>
+<h3 id="1-dataset-20-newsgroups">1. Dataset: 20 Newsgroups</h3>
+<p>Since we are trying to develop a visual analytics application that combining both visualization with interactive machine learning. One of the most common used dataset for classification is the 20 Newsgroups. The 20 Newsgroups [8] data set is a collection of approximately 20,000 newsgroup documents in 20 different newsgroups. We first use calculated information gain to re-rank the features, and only take the first 5000 significant features as training.</p>
+<h3 id="2-interactive-machine-learning">2. Interactive Machine Learning</h3>
+<p>Based on the framework of interactive machine learning, the most basic interactive machine learning algorithms used in academic research is 'nearest-neighbor classifier' [9]: through re-rank samples with or without specific features, which could present examples illustrating its current understanding of the desired classifier and users use this presentation to decide how to further improve the system's understanding. Right now, we have use the basic KNN classification methods on Scikit-Learn to test current dataset. By setting the K value to 20, and rearrange the data matrix shape to fit the training function, we got a matching percentage around 26%, which is pretty low.</p>
+<h3 id="3-interactive-visualization">3. Interactive Visualization</h3>
+<p>For the basic visualization part, we will use the web-based version of StarSPIRE [10] that Yali Bian developed to visualize the text documents based on ForceSPIRE [10]. However, more interactions will be added to help users explore examples with context generated based on interactive machine learnings.</p>
+<h2 id="timeline">TIMELINE</h2>
+<p>Since we tried to combined works from both HCI and Machine Learning fields, we split the work into two parts: visualization, machine learnings.<br>
+Time	Yali Bian	Liyan LI<br>
+10/18/17	Idea and related works	Idea and related works<br>
+11/1/17	Related Works and related visualization	Dataset to use on our idea<br>
+11/15/17	Basic Visualization design	Scikit-learn algorithms<br>
+11/28/17	Visualization Framework	KNN implementation on dataset<br>
+12/7/17	Merge Visualization to the framework	Merge Machine Learning to the frame work.<br>
+12/12/17	Case study	Evaluation</p>
+<h2 id="references">REFERENCES</h2>
+<ol>
+<li>J.J. Thomas and K.A. Cook, eds., Illuminat- ing the Path: The Research and Development Agenda for Visual Analytics, Nat'l Visualization and Analytics Center, 2005.</li>
+<li>B. Settles, Active Learning, Morgan &amp; Claypool, 2012.</li>
+<li>Simard P Y, Amershi S, Chickering D M, et al. Machine Teaching: A New Paradigm for Building Machine Learning Systems[J]. arXiv preprint arXiv:1707.06742, 2017.</li>
+<li>Fails, J.A., Olsen Jr., D.R. Interactive Machine Learning. IUI 2003, 39-45.</li>
+<li>J.J. Thomas and K.A. Cook, eds., Illuminat- ing the Path: The Research and Development Agenda for Visual Analytics, Nat'l Visualization and Analytics Center, 2005.</li>
+<li>Heimerl F, Koch S, Bosch H, et al. Visual classifier training for text document retrieval[J]. IEEE Transactions on Visualization and Computer Graphics, 2012, 18(12): 2839-2848.</li>
+<li>Amershi S. Designing for effective end-user interaction with machine learning[C]//Proceedings of the 24th annual ACM symposium adjunct on User interface software and technology. ACM, 2011: 47-50.</li>
+<li><a href="http://qwone.com/~jason/20Newsgroups/">http://qwone.com/~jason/20Newsgroups/</a></li>
+<li>Cover T, Hart P. Nearest neighbor pattern classification[J]. IEEE transactions on information theory, 1967, 13(1): 21-27.</li>
+<li>Bradel L, North C, House L. Multi-model semantic interaction for text analytics[C] Visual Analytics Science and Technology (VAST), 2014 IEEE Conference on. IEEE, 2014: 163-172.</li>
+</ol>
+     </div>
+</div>
+</body>
+</html>

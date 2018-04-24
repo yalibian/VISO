@@ -1,0 +1,96 @@
+/*color scheme*/
+.highlight.Person{
+	background-color: #d9b8f1;
+}
+
+.highlight.Location{
+	background-color: #BDC03F;
+}
+
+.highlight.Organization{
+	background-color: #ffe543;
+}
+
+.highlight.Money{
+	background-color: #FF9B14;
+}
+
+.highlight.Misc{
+	background-color: #F69AC1;
+}
+
+.highlight.Phone{
+	background-color: #8EB4FF;
+}
+
+.highlight.Interesting{
+	background-color: #f1f1b8;
+}
+
+.Date.highlight{
+	background-color: #67E1D8;
+}
+
+.highlight.Other{
+	background-color: #EFE4D7;
+}
+
+.unused{
+	background-color: #4B0082;
+}
+
+div#doc-panel{
+	width: 30%;
+}
+
+div#tool{
+	position: fixed;
+	width: 30%;
+	top: 0;
+	background-color: white;
+}
+
+em, button.category{
+	cursor: pointer;
+	border-radius: 6px;
+	padding: 2px;
+	box-shadow: 2px 2px 2px #888888;
+}
+
+h3.panel-heading{
+	margin: 0px;
+}
+
+#clearFilter{
+	float: right;
+}
+
+
+
+
+.doc {
+	font-family: arial,helvetica,'sans-serif';
+	font-size: 12px;
+	padding: 2px;
+    fill: white;
+	/*background-color: rgba(255,255,255,.3)*/
+}
+
+
+.doc p {
+	margin: 0;
+}
+
+p.doc-content {
+	margin-top: 8px;
+	/*height: 100px;*/
+	overflow: scroll;
+}
+
+
+
+
+.doc-title {
+	font-size: 18px;
+	text-align: center;
+}
