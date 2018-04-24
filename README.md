@@ -10,18 +10,21 @@ In addition to the above two articles. What is worth challenging is the learning
 
 ### Proposed work
 For this project, we will build a GUI that compares different optimization algorithms on different objective functions (strongly convex, convex, non-convex) with detailed visualizations and diagnostics. 
-Optimization algorithms include but not limited to:
-Gradient Descent
-Newton’s method
-BFGS
-Nesterov accelarated gradient
-Adagrad
-Adam
-RMSprop
-Objectives types to be tested with:
-strongly convex
-convex
-non-convex 
+
+#### Optimization algorithms include but not limited to:
+- Gradient Descent
+- Newton’s method
+- BFGS
+- Nesterov accelarated gradient
+- Adagrad
+- Adam
+- RMSprop
+
+
+#### Objectives types to be tested with:
+- strongly convex
+- convex
+- non-convex 
 
 We will run each optimization algorithm on several typical example of each objective type, for each algorithm, we will compare different settings of hyperparameters. Also, if time allows, we will support user-defined objectives/initialization and return real time results for users to try more experiments than those provided.
 

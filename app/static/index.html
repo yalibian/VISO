@@ -4,15 +4,27 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <title>VISO: Visualization for Optimization</title>
 
-    <link type="text/css" rel="stylesheet" href="css/bundle.css"/>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons" rel="stylesheet"
           type="text/css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <!--<link rel="stylesheet" type="text/css" href="css/bootstrap.css">-->
     <link type="text/css" rel="stylesheet" href="css/font-awesome.css"/>
     <link type="text/css" rel="stylesheet" href="css/main.css"/>
     <link type="text/css" rel="stylesheet" href="css/vis.css"/>
     <link type="text/css" rel="stylesheet" href="css/docs.css"/>
+
+    <link type="text/css" rel="stylesheet" href="css/bundle.css"/>
+
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-3.3.2.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-example.min.css">
+    <link type="text/css" rel="stylesheet" href="css/bootstrap-multiselect.css"/>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap-3.3.2.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="lib/prettify.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap-multiselect.js"></script>
+
     <script type="text/javascript" src="lib/d3.min.js"></script>
     <script type="text/javascript" src="lib/d3-selection-multi.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -44,7 +56,7 @@
          style="flex-direction:column;position:relative;display:flex;align-self:stretch;flex-grow:1;
              min-height: 500px;height:
              100%;
-             width:80%">
+             width:75%">
 
         <h1 id="visualization-bar"
             style="font-weight:normal;color:#CCC;padding:5px;font-size:20px;margin:0;border-bottom:solid 1px #ccc;">
@@ -58,320 +70,145 @@
          style="position:relative;display:flex;flex-direction:column;
             height: 100%;min-height:500px;top:0;min-width:300px;
              /*width:25%;border-right:solid*/
-             width:20%;border-left:solid
+             width:25%;border-left:solid
               1px #ccc;">
         <h1 style="font-weight:normal;color:#CCC;padding:5px;font-size:20px;margin:0;border-bottom:solid 1px #ccc;">
             Controller</h1>
 
         <div id="controller-menu"
-             style="height:20%;
+             style="height:50%;
                  min-height: 240px;margin-bottom:10px;overflow-y:auto;overflow-x:hidden;border:solid 1px #ccc;">
 
             <div style="font-size:12px;background-color:#eee;font-weight:bold;padding:5px;">CONTROLLER</div>
-            <div id="top-controls">
-                <div class="container l--page">
-                    <div class="timeline-controls">
-                        <button class="mdl-button mdl-js-button mdl-button--icon ui-resetButton" id="reset-button"
-                                title="Reset the network" data-upgraded=",MaterialButton">
-                            <i class="material-icons">replay</i>
-                        </button>
-                        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored ui-playButton"
-                                id="play-pause-button" title="Run/Pause" data-upgraded=",MaterialButton">
-                            <i class="material-icons">play_arrow</i>
-                            <i class="material-icons">pause</i>
-                        </button>
-                        <button class="mdl-button mdl-js-button mdl-button--icon ui-stepButton" id="next-step-button"
-                                title="Step" data-upgraded=",MaterialButton">
-                            <i class="material-icons">skip_next</i>
-                        </button>
-                    </div>
-                    <div class="control">
-                        <span class="label">Epoch</span>
-                        <span class="value" id="iter-number">000,000</span>
-                    </div>
-                    <div class="control ui-learningRate">
-                        <label for="learningRate">Learning rate</label>
-                        <div class="select">
-                            <select id="learningRate">
-                                <option value="0.00001">0.00001</option>
-                                <option value="0.0001">0.0001</option>
-                                <option value="0.001">0.001</option>
-                                <option value="0.003">0.003</option>
-                                <option value="0.01">0.01</option>
-                                <option value="0.03">0.03</option>
-                                <option value="0.1">0.1</option>
-                                <option value="0.3">0.3</option>
-                                <option value="1">1</option>
-                                <option value="3">3</option>
-                                <option value="10">10</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control ui-activation">
-                        <label for="activations">Activation</label>
-                        <div class="select">
-                            <select id="activations">
-                                <option value="relu">ReLU</option>
-                                <option value="tanh">Tanh</option>
-                                <option value="sigmoid">Sigmoid</option>
-                                <option value="linear">Linear</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control ui-regularization">
-                        <label for="regularizations">Regularization</label>
-                        <div class="select">
-                            <select id="regularizations">
-                                <option value="none">None</option>
-                                <option value="L1">L1</option>
-                                <option value="L2">L2</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control ui-regularizationRate">
-                        <label for="regularRate">Regularization rate</label>
-                        <div class="select">
-                            <select id="regularRate">
-                                <option value="0">0</option>
-                                <option value="0.001">0.001</option>
-                                <option value="0.003">0.003</option>
-                                <option value="0.01">0.01</option>
-                                <option value="0.03">0.03</option>
-                                <option value="0.1">0.1</option>
-                                <option value="0.3">0.3</option>
-                                <option value="1">1</option>
-                                <option value="3">3</option>
-                                <option value="10">10</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control ui-problem">
-                        <label for="problem">Problem type</label>
-                        <div class="select">
-                            <select id="problem">
-                                <option value="classification">Classification</option>
-                                <option value="regression">Regression</option>
-                            </select>
-                        </div>
-                    </div>
+
+            <!--<div id="top-controls">-->
+
+            <div class="container l--page">
+
+                <div class="timeline-controls">
+                    <button class="mdl-button mdl-js-button mdl-button--icon ui-resetButton" id="reset-button"
+                            title="Reset the network" data-upgraded=",MaterialButton">
+                        <i class="material-icons">replay</i>
+                    </button>
+                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored ui-playButton"
+                            id="play-pause-button" title="Run/Pause" data-upgraded=",MaterialButton">
+                        <i class="material-icons">play_arrow</i>
+                        <i class="material-icons">pause</i>
+                    </button>
+                    <button class="mdl-button mdl-js-button mdl-button--icon ui-stepButton" id="next-step-button"
+                            title="Step" data-upgraded=",MaterialButton">
+                        <i class="material-icons">skip_next</i>
+                    </button>
                 </div>
+
+                <div class="control ui-optimizer">
+                    <label for="optimizer">Optimizer</label>
+                    <select id="optimizer" multiple="multiple">
+                        <option value="gd">Gradient Descent</option>
+                        <option value="newton">Newton’s method</option>
+                        <option value="bfgs">BFGS</option>
+                        <option value="nesterov">Nesterov accelarated gradient</option>
+                        <option value="adagrad">Adagrad</option>
+                        <option value="adam">Adam</option>
+                        <option value="rms">RMSprop</option>
+                    </select>
+                </div>
+
+                <div class="control ui-epoch">
+                    <label for="epoch">Epoch</label>
+
+                    <span class="select">
+                        <select id="epoch">
+                            <option value="0.00001">1000</option>
+                            <option value="0.0001">1000000</option>
+                            <option value="0.0001">2000000</option>
+                            <option value="0.0001">3000000</option>
+                            <option value="0.0001">4000000</option>
+                        </select>
+                    </span>
+
+                </div>
+
+
+                <div class="control ui-learningRate">
+                    <label for="learningRate">Learning rate</label>
+                    <span class="select">
+                        <select id="learningRate">
+                            <option value="0.00001">0.00001</option>
+                            <option value="0.0001">0.0001</option>
+                            <option value="0.001">0.001</option>
+                            <option value="0.003">0.003</option>
+                            <option value="0.01">0.01</option>
+                            <option value="0.03">0.03</option>
+                            <option value="0.1">0.1</option>
+                            <option value="0.3">0.3</option>
+                            <option value="1">1</option>
+                            <option value="3">3</option>
+                            <option value="10">10</option>
+                        </select>
+                    </span>
+                </div>
+
+
+                <div class="control ui-regularization">
+                    <label for="regularizations">Regularization</label>
+                    <span class="select">
+                        <select id="regularizations">
+                            <option value="none">None</option>
+                            <option value="L1">L1</option>
+                            <option value="L2">L2</option>
+                        </select>
+                    </span>
+                </div>
+
+
+                <div class="control ui-regularizationRate">
+                    <label for="regularRate">Regularization rate</label>
+                    <span class="select">
+                        <select id="regularRate">
+                            <option value="0">0</option>
+                            <option value="0.001">0.001</option>
+                            <option value="0.003">0.003</option>
+                            <option value="0.01">0.01</option>
+                            <option value="0.03">0.03</option>
+                            <option value="0.1">0.1</option>
+                            <option value="0.3">0.3</option>
+                            <option value="1">1</option>
+                            <option value="3">3</option>
+                            <option value="10">10</option>
+                        </select>
+                    </span>
+                </div>
+
+
             </div>
-            Hello World
+            <!--</div>-->
         </div>
 
 
-        <div id="data_intro"
-             style="height:80%;
+        <div id="Objective"
+             style="height: 30%;
                  min-height: 240px;margin-bottom:10px;overflow-y:auto;overflow-x:hidden;border:solid 1px #ccc;">
 
-            <div style="font-size:12px;background-color:#eee;font-weight:bold;padding:5px;">Data</div>
-            Hello World
+            <div style="font-size:12px;background-color:#eee;font-weight:bold;padding:5px;">Objective Function</div>
+
+
+            Objective Function in Python.
         </div>
+
+        <div id="Optimization"
+             style="height:20%;
+                 min-height: 240px;margin-bottom:10px;overflow-y:auto;overflow-x:hidden;border:solid 1px #ccc;">
+
+            <div style="font-size:12px;background-color:#eee;font-weight:bold;padding:5px;">Optimization Algorithm</div>
+            Optimization function in Python.
+        </div>
+
 
     </div>
 </div>
 </div>
 
-
-<!--<div id="main" style="position:relative;display:flex;align-self:stretch;flex-grow:1;height:100%;">-->
-<!--<div-->
-<!--style="flex-direction:column;position:relative;display:flex;align-self:stretch;flex-grow:1;-->
-<!--min-height: 500px;height:-->
-<!--100%;-->
-<!--width:75%">-->
-
-<!--<h1 id="vis-bar"-->
-<!--style="font-weight:normal;color:#CCC;padding:5px;font-size:15px;margin:0;border-bottom:solid 1px #ccc;">-->
-<!--WorkSpace-->
-
-
-<!--<a style="display: inline-block;" href="javascript:updateLayout();"><i class="fa fa-fw fa-refresh"></i>Method</a>-->
-<!--<a style="display: inline-block;" href="javascript:undoInstance();"><i class="fa fa-fw fa-undo"></i>Cost Function</a>-->
-<!--<a style="display: inline-block;" href="javascript:undoLayout();"><i class="fa fa-fw fa-refresh"></i>Learning rate</a>-->
-<!--<a style="display: inline-block;" href="javascript:redoInstance();"><i class="fa fa-fw fa-repeat"></i>Contraction Rate</a>-->
-<!--<a style="display: inline-block;" href="javascript:redoInstance();"><i class="fa fa-fw fa-repeat"></i>Expansion Rate</a>-->
-<!--</h1>-->
-
-
-<!--&lt;!&ndash;<div id="top-controls">&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="container l&#45;&#45;page">&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="timeline-controls">&ndash;&gt;-->
-<!--&lt;!&ndash;<button class="mdl-button mdl-js-button mdl-button&#45;&#45;icon ui-resetButton" id="reset-button" title="Reset the network" data-upgraded=",MaterialButton">&ndash;&gt;-->
-<!--&lt;!&ndash;<i class="material-icons">replay</i>&ndash;&gt;-->
-<!--&lt;!&ndash;</button>&ndash;&gt;-->
-<!--&lt;!&ndash;<button class="mdl-button mdl-js-button mdl-button&#45;&#45;fab mdl-button&#45;&#45;colored ui-playButton" id="play-pause-button" title="Run/Pause" data-upgraded=",MaterialButton">&ndash;&gt;-->
-<!--&lt;!&ndash;<i class="material-icons">play_arrow</i>&ndash;&gt;-->
-<!--&lt;!&ndash;<i class="material-icons">pause</i>&ndash;&gt;-->
-<!--&lt;!&ndash;</button>&ndash;&gt;-->
-<!--&lt;!&ndash;<button class="mdl-button mdl-js-button mdl-button&#45;&#45;icon ui-stepButton" id="next-step-button" title="Step" data-upgraded=",MaterialButton">&ndash;&gt;-->
-<!--&lt;!&ndash;<i class="material-icons">skip_next</i>&ndash;&gt;-->
-<!--&lt;!&ndash;</button>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="control">&ndash;&gt;-->
-<!--&lt;!&ndash;<span class="label">Epoch</span>&ndash;&gt;-->
-<!--&lt;!&ndash;<span class="value" id="iter-number">000,000</span>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="control ui-learningRate">&ndash;&gt;-->
-<!--&lt;!&ndash;<label for="learningRate">Learning rate</label>&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="select">&ndash;&gt;-->
-<!--&lt;!&ndash;<select id="learningRate">&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.00001">0.00001</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.0001">0.0001</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.001">0.001</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.003">0.003</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.01">0.01</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.03">0.03</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.1">0.1</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.3">0.3</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="1">1</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="3">3</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="10">10</option>&ndash;&gt;-->
-<!--&lt;!&ndash;</select>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="control ui-activation">&ndash;&gt;-->
-<!--&lt;!&ndash;<label for="activations">Activation</label>&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="select">&ndash;&gt;-->
-<!--&lt;!&ndash;<select id="activations">&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="relu">ReLU</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="tanh">Tanh</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="sigmoid">Sigmoid</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="linear">Linear</option>&ndash;&gt;-->
-<!--&lt;!&ndash;</select>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="control ui-regularization">&ndash;&gt;-->
-<!--&lt;!&ndash;<label for="regularizations">Regularization</label>&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="select">&ndash;&gt;-->
-<!--&lt;!&ndash;<select id="regularizations">&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="none">None</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="L1">L1</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="L2">L2</option>&ndash;&gt;-->
-<!--&lt;!&ndash;</select>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="control ui-regularizationRate">&ndash;&gt;-->
-<!--&lt;!&ndash;<label for="regularRate">Regularization rate</label>&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="select">&ndash;&gt;-->
-<!--&lt;!&ndash;<select id="regularRate">&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0">0</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.001">0.001</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.003">0.003</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.01">0.01</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.03">0.03</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.1">0.1</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="0.3">0.3</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="1">1</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="3">3</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="10">10</option>&ndash;&gt;-->
-<!--&lt;!&ndash;</select>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="control ui-problem">&ndash;&gt;-->
-<!--&lt;!&ndash;<label for="problem">Problem type</label>&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="select">&ndash;&gt;-->
-<!--&lt;!&ndash;<select id="problem">&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="classification">Classification</option>&ndash;&gt;-->
-<!--&lt;!&ndash;<option value="regression">Regression</option>&ndash;&gt;-->
-<!--&lt;!&ndash;</select>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-
-<!--<svg id="workspace" style="display: flex; min-height: 180px; height: 100%; width: 75%">-->
-<!--</svg>-->
-
-<!--&lt;!&ndash;style="position:relative;display:flex;flex-direction:column;min-height:800px;top:0;min-width:300px; &ndash;&gt;-->
-<!--<div id="controller"-->
-<!--style="position:relative;display:flex;flex-direction:column;-->
-<!--height: 100%;min-height:500px;top:0;min-width:300px;-->
-<!--/*width:25%;border-right:solid*/-->
-<!--width:25%;border-left:solid-->
-<!--1px #ccc;">-->
-<!--<h1 style="font-weight:normal;color:#CCC;padding:5px;font-size:20px;margin:0;border-bottom:solid 1px #ccc;">-->
-<!--Controller</h1>-->
-
-<!--<div id="controller-menu"-->
-<!--style="height:220px;-->
-<!--min-height: 240px;margin-bottom:10px;overflow-y:auto;overflow-x:hidden;border:solid 1px #ccc;">-->
-
-<!--<div style="font-size:12px;background-color:#eee;font-weight:bold;padding:5px;">CONTROLLER</div>-->
-
-
-<!--<label for="bubble-controller">Bubble</label>-->
-<!--<div id="bubble-controller" class="btn-group btn-group-justified" role="group" aria-label="...">-->
-<!--<div class="btn-group" role="group">-->
-<!--<button type="button" class="btn btn-default" id="create-bubble">Create</button>-->
-<!--</div>-->
-<!--<div class="btn-group" role="group">-->
-<!--<button type="button" class="btn btn-default" id="cancel-bubble">Cancel</button>-->
-<!--</div>-->
-<!--<div class="btn-group" role="group">-->
-<!--<button type="button" class="btn btn-default" id="update-bubble">Update</button>-->
-<!--</div>-->
-<!--<div class="btn-group" role="group">-->
-<!--<button type="button" class="btn btn-default" id="delete-bubble">Delete</button>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<label for="node-controller">Node</label>-->
-<!--<div id="node-controller" class="btn-group btn-group-justified" role="group" aria-label="...">-->
-<!--<div class="btn-group" role="group">-->
-<!--<button type="button" class="btn btn-default" id="freeze-node">Freeze</button>-->
-<!--</div>-->
-<!--<div class="btn-group" role="group">-->
-<!--<button type="button" class="btn btn-default" id="unfreeze-node">Unfreeze</button>-->
-<!--</div>-->
-<!--<div class="btn-group" role="group">-->
-<!--<button type="button" class="btn btn-default">Explore</button>-->
-<!--</div>-->
-<!--<div class="btn-group" role="group">-->
-<!--<button type="button" class="btn btn-default">Relation</button>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash;<br>&ndash;&gt;-->
-<!--<label for="ex8">Link</label>-->
-<!--<br>-->
-<!--<span id="votes">Votes: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>-->
-<!--<input id="ex8" data-slider-id='ex1Slider' type="text" data-slider-min="0"-->
-<!--data-slider-max="120"-->
-<!--data-slider-step="1" data-slider-value="0"/>-->
-
-<!--<span>Obvious: &nbsp;&nbsp; </span>-->
-<!--<input id="obvious" data-slider-id='ex1Slider' type="text" data-slider-min="0"-->
-<!--data-slider-max="100"-->
-<!--data-slider-step="1" data-slider-value="0"/>-->
-<!--</div>-->
-
-
-<!--<div id="Cluster" style="width:100%;position:relative;display:flex;flex-direction:column;-->
-<!--height: 100%;min-height:500px;top:0;min-width:300px;border-right:solid 1px #ccc;">-->
-<!--&lt;!&ndash;<div id="Cluster" style="position:relative;display:flex;flex-direction:column; height: 100%;min-height:500px;top:0;min-width:300px; width:30%;border-right:solid 1px #ccc;">&ndash;&gt;-->
-<!--<h1 id="cluster-bar"-->
-<!--style="font-weight:normal;color:#CCC;padding:5px;font-size:20px;margin:0;border-bottom:solid 1px #ccc;">-->
-<!--Cluster</h1>-->
-
-<!--<div id="cluster-list"-->
-<!--style="width:100%;flex-grow:1;overflow:auto;padding:0px;display:flex;min-width:300px; height:100%">-->
-<!--&lt;!&ndash;<div style="margin-bottom:10px;overflow-y:auto;overflow-x:hidden;border:solid &ndash;&gt;-->
-<!--&lt;!&ndash;1px #ccc;">&ndash;&gt;-->
-<!--<div style="min-height:810px;margin-bottom:0px;overflow-y:auto;overflow-x:hidden;border:solid-->
-<!--1px #ccc;">-->
-<!--<div id="cluster-view">-->
-<!--</div>-->
-<!--</div>-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--</div>-->
-
-<!--</div>-->
-
-<!--</div>-->
-
-<!--</div>-->
-<!--</div>-->
 
 </body>
 <!--<script type="text/javascript" src="scripts/utility.js"></script>-->

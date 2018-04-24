@@ -4,6 +4,13 @@
 //      width = +svg.attr("width"),
 //      height = +svg.attr("height");
 
+
+
+ $(document).ready(function() {
+        $('#optimizer').multiselect();
+    });
+
+
 const svg = d3.select('#vis');
 const width = parseInt(svg.style("width"), 10);
 const height = parseInt(svg.style("height"), 10);

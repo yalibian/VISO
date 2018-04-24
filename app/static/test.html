@@ -12,5 +12,52 @@
   <body>
     <div id='d3'></div>
   </body>
-<script type="text/javascript" src="rect.js"></script>
+
+
+<style type="text/css">
+#e {
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  font-size:14px;
+}
+</style>
+
+<div id="e">Hello World</div>
+<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+<script>
+var myKey="lawlietkey"+Math.round(new Date().getTime()/1000);
+$(document).ready(function(){
+    var e = ace.edit("e");
+    var url = "http://api.openkeyval.org/"+myKey;
+    $.ajax({
+      url: url,
+      dataType: "jsonp",
+      success: function(data){
+       e.setTheme("ace/theme/solarized_dark");
+       e.getSession().setMode("ace/mode/python");
+       e.setValue(data);
+      }
+    });
+
+    $("#e").on("keydown", function (b) {
+      if (b.ctrlKey && 83 == b.which) {
+        b.preventDefault();
+        var data = myKey+"="+encodeURIComponent(e.getValue());
+        $.ajax({
+          data: data,
+          url: "http://api.openkeyval.org/store/",
+          dataType: "jsonp",
+          success: function(data){
+            alert("Saved."+myKey);
+          }
+        });
+      }
+    });
+});
+</script>
+
 </html>
