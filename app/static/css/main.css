@@ -7,6 +7,11 @@ body {
     background: #FEFEFE;
 }
 
+.control-line{
+     margin-top: 5px;
+     margin-bottom: 5px;
+}
+
 a {
     color: #000;
     font-weight: bold;
@@ -16,14 +21,6 @@ a {
 a:hover {
     color: #666;
 }
-
-/*a[href^="http"] {*/
-    /*padding-right: 14px;*/
-    /*background-image: url('../images/external.png');*/
-    /*background-position: right !important;*/
-    /*background-repeat: no-repeat;*/
-
-/*}*/
 
 #product_title {
     margin-top: 10px;
@@ -668,6 +665,10 @@ fieldset {
     border: 0px;
 }
 
+.timeline-controls{
+    margin-top: 10px;
+}
+
 label {
     font-size: 1em;
     font-weight: 600;
@@ -675,6 +676,7 @@ label {
     color: #000;
     display: inline-block;
     margin-left: 5px;
+    margin-right: 15px;
     margin-top: 5px;
 }
 

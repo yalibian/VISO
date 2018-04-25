@@ -8,6 +8,11 @@
 
  $(document).ready(function() {
         $('#optimizer').multiselect();
+        $('#epoch').multiselect();
+     $('#objective').multiselect();
+     $('#learningRate').multiselect();
+     $('#regularizations').multiselect();
+     $('#regularRate').multiselect();
     });
 
 

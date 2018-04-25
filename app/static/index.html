@@ -8,7 +8,6 @@
           type="text/css">
     <!--<link rel="stylesheet" type="text/css" href="css/bootstrap.css">-->
     <link type="text/css" rel="stylesheet" href="css/font-awesome.css"/>
-    <link type="text/css" rel="stylesheet" href="css/main.css"/>
     <link type="text/css" rel="stylesheet" href="css/vis.css"/>
     <link type="text/css" rel="stylesheet" href="css/docs.css"/>
 
@@ -19,7 +18,10 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap-example.min.css">
     <link type="text/css" rel="stylesheet" href="css/bootstrap-multiselect.css"/>
 
+    <link type="text/css" rel="stylesheet" href="css/main.css"/>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <script type="text/javascript" src="lib/bootstrap-3.3.2.min.js"></script>
     <script type="text/javascript" src="lib/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="lib/prettify.min.js"></script>
@@ -76,15 +78,18 @@
             Controller</h1>
 
         <div id="controller-menu"
-             style="height:50%;
+             style=" height: 100%;
                  min-height: 240px;margin-bottom:10px;overflow-y:auto;overflow-x:hidden;border:solid 1px #ccc;">
 
-            <div style="font-size:12px;background-color:#eee;font-weight:bold;padding:5px;">CONTROLLER</div>
+            <!--<div style="font-size:12px;background-color:#eee;font-weight:bold;padding:5px;">CONTROLLER</div>-->
 
             <!--<div id="top-controls">-->
 
             <div class="container l--page">
 
+
+                <!--<hr class="masthead-hr control-line">-->
+                <!--<div class=" text-center">-->
                 <div class="timeline-controls">
                     <button class="mdl-button mdl-js-button mdl-button--icon ui-resetButton" id="reset-button"
                             title="Reset the network" data-upgraded=",MaterialButton">
@@ -101,39 +106,55 @@
                     </button>
                 </div>
 
+                <hr class="masthead-hr control-line">
                 <div class="control ui-optimizer">
                     <label for="optimizer">Optimizer</label>
                     <select id="optimizer" multiple="multiple">
-                        <option value="gd">Gradient Descent</option>
-                        <option value="newton">Newton’s method</option>
-                        <option value="bfgs">BFGS</option>
-                        <option value="nesterov">Nesterov accelarated gradient</option>
                         <option value="adagrad">Adagrad</option>
+                        <option value="adadelta">Adadelta</option>
                         <option value="adam">Adam</option>
-                        <option value="rms">RMSprop</option>
+                        <option value="rmsprop">Rmsprop</option>
+                        <option value="lbfgs">Lbfgs</option>
+                        <option value="upload-opt">Upload</option>
                     </select>
                 </div>
 
-                <div class="control ui-epoch">
-                    <label for="epoch">Epoch</label>
-
-                    <span class="select">
-                        <select id="epoch">
-                            <option value="0.00001">1000</option>
-                            <option value="0.0001">1000000</option>
-                            <option value="0.0001">2000000</option>
-                            <option value="0.0001">3000000</option>
-                            <option value="0.0001">4000000</option>
-                        </select>
-                    </span>
-
+                <hr class="masthead-hr control-line">
+                <div class="control ui-optimizer">
+                    <label for="objective">Objective</label>
+                    <select id="objective">
+                        <option value="gd">Ackley</option>
+                        <option value="gd">Booth</option>
+                        <option value="gd">Bukin</option>
+                        <option value="gd">Cross-in-tray</option>
+                        <option value="gd">Eggholder</option>
+                        <option value="gd">Easom</option>
+                        <option value="gd">Matyas</option>
+                        <option value="gd">Lévi</option>
+                        <option value="gd">Himmelblau</option>
+                        <option value="gd">Three-hump camel</option>
+                        <option value="gd">Hölder table</option>
+                        <option value="gd">Schaffer</option>
+                    </select>
                 </div>
 
+                <!--<hr class="masthead-hr control-line">-->
+                <!--<div class="control ui-epoch">-->
+                    <!--<label for="epoch">Epoch</label>-->
+                    <!--<select id="epoch" class="left">-->
+                            <!--<option value="1000">1000</option>-->
+                            <!--<option value="10000">1000000</option>-->
+                            <!--<option value="20000">2000000</option>-->
+                            <!--<option value="30000">3000000</option>-->
+                            <!--<option value="40000">4000000</option>-->
+                    <!--</select>-->
+                <!--</div>-->
 
+
+                <hr class="masthead-hr control-line">
                 <div class="control ui-learningRate">
-                    <label for="learningRate">Learning rate</label>
-                    <span class="select">
-                        <select id="learningRate">
+                    <label for="learningRate">Learning Rate</label>
+                        <select id="learningRate" multiple="multiple">
                             <option value="0.00001">0.00001</option>
                             <option value="0.0001">0.0001</option>
                             <option value="0.001">0.001</option>
@@ -146,62 +167,41 @@
                             <option value="3">3</option>
                             <option value="10">10</option>
                         </select>
-                    </span>
                 </div>
 
 
+                <hr class="masthead-hr control-line">
                 <div class="control ui-regularization">
-                    <label for="regularizations">Regularization</label>
-                    <span class="select">
-                        <select id="regularizations">
+                    <label for="regularizations">Regular</label>
+                        <select id="regularizations" multiple="multiple">
                             <option value="none">None</option>
                             <option value="L1">L1</option>
                             <option value="L2">L2</option>
                         </select>
-                    </span>
                 </div>
 
 
-                <div class="control ui-regularizationRate">
-                    <label for="regularRate">Regularization rate</label>
-                    <span class="select">
-                        <select id="regularRate">
-                            <option value="0">0</option>
-                            <option value="0.001">0.001</option>
-                            <option value="0.003">0.003</option>
-                            <option value="0.01">0.01</option>
-                            <option value="0.03">0.03</option>
-                            <option value="0.1">0.1</option>
-                            <option value="0.3">0.3</option>
-                            <option value="1">1</option>
-                            <option value="3">3</option>
-                            <option value="10">10</option>
-                        </select>
-                    </span>
-                </div>
+                <!--<hr class="masthead-hr control-line">-->
+                <!--<div class="control ui-regularizationRate">-->
+                    <!--<label for="regularRate">Regularization rate</label>-->
+                        <!--<select id="regularRate" multiple="multiple">-->
+                            <!--<option value="0">0</option>-->
+                            <!--<option value="0.001">0.001</option>-->
+                            <!--<option value="0.003">0.003</option>-->
+                            <!--<option value="0.01">0.01</option>-->
+                            <!--<option value="0.03">0.03</option>-->
+                            <!--<option value="0.1">0.1</option>-->
+                            <!--<option value="0.3">0.3</option>-->
+                            <!--<option value="1">1</option>-->
+                            <!--<option value="3">3</option>-->
+                            <!--<option value="10">10</option>-->
+                        <!--</select>-->
+                <!--</div>-->
 
+                <hr class="masthead-hr control-line">
 
             </div>
             <!--</div>-->
-        </div>
-
-
-        <div id="Objective"
-             style="height: 30%;
-                 min-height: 240px;margin-bottom:10px;overflow-y:auto;overflow-x:hidden;border:solid 1px #ccc;">
-
-            <div style="font-size:12px;background-color:#eee;font-weight:bold;padding:5px;">Objective Function</div>
-
-
-            Objective Function in Python.
-        </div>
-
-        <div id="Optimization"
-             style="height:20%;
-                 min-height: 240px;margin-bottom:10px;overflow-y:auto;overflow-x:hidden;border:solid 1px #ccc;">
-
-            <div style="font-size:12px;background-color:#eee;font-weight:bold;padding:5px;">Optimization Algorithm</div>
-            Optimization function in Python.
         </div>
 
 

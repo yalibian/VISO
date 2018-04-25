@@ -20,6 +20,20 @@ For this project, we will build a GUI that compares different optimization algor
 - Adam
 - RMSprop
 
+------
+Adagrad
+
+Adadelta
+
+Adam
+
+Rmsprop
+
+Lbfgs
+
+
+
+
 
 #### Objectives types to be tested with:
 - strongly convex
