@@ -85,6 +85,8 @@
 
             <!--<div id="top-controls">-->
 
+
+
             <div class="container l--page">
 
 
@@ -106,6 +108,8 @@
                     </button>
                 </div>
 
+
+
                 <hr class="masthead-hr control-line">
                 <div class="control ui-optimizer">
                     <label for="optimizer">Optimizer</label>
@@ -123,9 +127,19 @@
                 <div class="control ui-optimizer">
                     <label for="objective">Objective</label>
                     <select id="objective">
-                        <option value="gd">Ackley</option>
-                        <option value="gd">Booth</option>
-                        <option value="gd">Bukin</option>
+                        <option value="gd">
+                            ada
+                        </option>
+
+                        <option value="gd">
+                            Booth
+                        </option>
+
+                        <option value="gd">Bukin
+                            <a class="function_himmelblau">
+                                \((x^2 + y - 11)^2 + (x+y^2 -7)^2\)
+                            </a>
+                        </option>
                         <option value="gd">Cross-in-tray</option>
                         <option value="gd">Eggholder</option>
                         <option value="gd">Easom</option>
@@ -138,65 +152,36 @@
                     </select>
                 </div>
 
-                <!--<hr class="masthead-hr control-line">-->
-                <!--<div class="control ui-epoch">-->
-                    <!--<label for="epoch">Epoch</label>-->
-                    <!--<select id="epoch" class="left">-->
-                            <!--<option value="1000">1000</option>-->
-                            <!--<option value="10000">1000000</option>-->
-                            <!--<option value="20000">2000000</option>-->
-                            <!--<option value="30000">3000000</option>-->
-                            <!--<option value="40000">4000000</option>-->
-                    <!--</select>-->
-                <!--</div>-->
 
 
                 <hr class="masthead-hr control-line">
                 <div class="control ui-learningRate">
                     <label for="learningRate">Learning Rate</label>
-                        <select id="learningRate" multiple="multiple">
-                            <option value="0.00001">0.00001</option>
-                            <option value="0.0001">0.0001</option>
-                            <option value="0.001">0.001</option>
-                            <option value="0.003">0.003</option>
-                            <option value="0.01">0.01</option>
-                            <option value="0.03">0.03</option>
-                            <option value="0.1">0.1</option>
-                            <option value="0.3">0.3</option>
-                            <option value="1">1</option>
-                            <option value="3">3</option>
-                            <option value="10">10</option>
-                        </select>
+                    <select id="learningRate" multiple="multiple">
+                        <option value="0.00001">0.00001</option>
+                        <option value="0.0001">0.0001</option>
+                        <option value="0.001">0.001</option>
+                        <option value="0.003">0.003</option>
+                        <option value="0.01">0.01</option>
+                        <option value="0.03">0.03</option>
+                        <option value="0.1">0.1</option>
+                        <option value="0.3">0.3</option>
+                        <option value="1">1</option>
+                        <option value="3">3</option>
+                        <option value="10">10</option>
+                    </select>
                 </div>
 
 
                 <hr class="masthead-hr control-line">
                 <div class="control ui-regularization">
                     <label for="regularizations">Regular</label>
-                        <select id="regularizations" multiple="multiple">
-                            <option value="none">None</option>
-                            <option value="L1">L1</option>
-                            <option value="L2">L2</option>
-                        </select>
+                    <select id="regularizations" multiple="multiple">
+                        <option value="none">None</option>
+                        <option value="L1">L1</option>
+                        <option value="L2">L2</option>
+                    </select>
                 </div>
-
-
-                <!--<hr class="masthead-hr control-line">-->
-                <!--<div class="control ui-regularizationRate">-->
-                    <!--<label for="regularRate">Regularization rate</label>-->
-                        <!--<select id="regularRate" multiple="multiple">-->
-                            <!--<option value="0">0</option>-->
-                            <!--<option value="0.001">0.001</option>-->
-                            <!--<option value="0.003">0.003</option>-->
-                            <!--<option value="0.01">0.01</option>-->
-                            <!--<option value="0.03">0.03</option>-->
-                            <!--<option value="0.1">0.1</option>-->
-                            <!--<option value="0.3">0.3</option>-->
-                            <!--<option value="1">1</option>-->
-                            <!--<option value="3">3</option>-->
-                            <!--<option value="10">10</option>-->
-                        <!--</select>-->
-                <!--</div>-->
 
                 <hr class="masthead-hr control-line">
 
@@ -213,6 +198,24 @@
 </body>
 <!--<script type="text/javascript" src="scripts/utility.js"></script>-->
 <script type="text/javascript" src="scripts/vis.js"></script>
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    showMathMenu: false,
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+
+
 </html>
 
 
