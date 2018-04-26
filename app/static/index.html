@@ -86,7 +86,6 @@
             <!--<div id="top-controls">-->
 
 
-
             <div class="container l--page">
 
 
@@ -109,7 +108,6 @@
                 </div>
 
 
-
                 <hr class="masthead-hr control-line">
                 <div class="control ui-optimizer">
                     <label for="optimizer">Optimizer</label>
@@ -119,39 +117,30 @@
                         <option value="adam">Adam</option>
                         <option value="rmsprop">Rmsprop</option>
                         <option value="lbfgs">Lbfgs</option>
-                        <option value="upload-opt">Upload</option>
+                        <option value="upload-opt"><>Upload</option>
                     </select>
                 </div>
 
                 <hr class="masthead-hr control-line">
-                <div class="control ui-optimizer">
+                <div class="control ui-objective">
                     <label for="objective">Objective</label>
                     <select id="objective">
-                        <option value="gd">
-                            ada
+                        <option value="function_flower">
+                            \(x^2 + y^2 + x \sin y + y \sin x \)
                         </option>
 
-                        <option value="gd">
-                            Booth
+                        <option value="function_himmelblau">
+                            \((x^2 + y - 11)^2 + (x+y^2 -7)^2\)
                         </option>
 
-                        <option value="gd">Bukin
-                            <a class="function_himmelblau">
-                                \((x^2 + y - 11)^2 + (x+y^2 -7)^2\)
-                            </a>
+                        <option value="function_banana">
+                            \((1-x)^2 + 100 (y - x^2) ^2\)
                         </option>
-                        <option value="gd">Cross-in-tray</option>
-                        <option value="gd">Eggholder</option>
-                        <option value="gd">Easom</option>
-                        <option value="gd">Matyas</option>
-                        <option value="gd">Lévi</option>
-                        <option value="gd">Himmelblau</option>
-                        <option value="gd">Three-hump camel</option>
-                        <option value="gd">Hölder table</option>
-                        <option value="gd">Schaffer</option>
+                        <option value="function_matyas">
+                            \(.26 (x^2 + y^2) + .48 x y \)
+                        </option>
                     </select>
                 </div>
-
 
 
                 <hr class="masthead-hr control-line">
@@ -212,8 +201,9 @@
     },
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
+
 </script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js"></script>
 
 
 </html>

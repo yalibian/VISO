@@ -5,15 +5,32 @@
 //      height = +svg.attr("height");
 
 
+$(document).ready(function () {
+    $('#optimizer').multiselect();
+    $('#epoch').multiselect();
+    $('#objective').multiselect({
+            onChange: function (option, checked, select) {
+                console.log(option);
+                console.log($(option).html());
+                console.log($(option).val());
+                // console.log($(option).innerHTML);
+                // console.log($(option).innerHTML());
+                // console.log(option.innerHTML());
+                // $(".multiselect-selected-text").html($(option).html());
+                // $(".ui-objective").
+                $(".ui-objective .multiselect-selected-text").html($(option).html());
+                updateObjectiveFunction(x);
+            }
+        });
+    $('#learningRate').multiselect();
+    $('#regularizations').multiselect();
+    $('#regularRate').multiselect();
+});
 
- $(document).ready(function() {
-        $('#optimizer').multiselect();
-        $('#epoch').multiselect();
-     $('#objective').multiselect();
-     $('#learningRate').multiselect();
-     $('#regularizations').multiselect();
-     $('#regularRate').multiselect();
-    });
+
+function updateObjectiveFunction(x) {
+    $(".ui-objective .multiselect-selected-text").html(x);
+}
 
 
 const svg = d3.select('#vis');
@@ -22,7 +39,7 @@ const height = parseInt(svg.style("height"), 10);
 
 
 console.log(width + " " + height);
-var n = 240, m = Math.floor(n *  width / height);
+var n = 240, m = Math.floor(n * width / height);
 var m = 170, n = 240;
 
 console.log(n + " " + m);
