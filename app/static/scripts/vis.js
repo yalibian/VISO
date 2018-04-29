@@ -31,6 +31,17 @@ updateVis(str2fun(objectiveFun));
 
 
 $(document).ready(function () {
+    $('#play-pause-button')
+        .click(function (hello) {
+
+            var obj = {"opt": selectedOpt, "obj": objectiveFun, "epoch": selectedEpoch, "rate": selectedLearningRate};
+
+            d3.request('/training')
+                .mimeType("text/csv")
+                .post(JSON.stringify(obj), updateVis);
+            console.log("Clicked the Play-pause-button");
+        });
+
 
     $('#optimizer').multiselect({
 
@@ -67,7 +78,6 @@ $(document).ready(function () {
                 }
 
                 console.log(selectedEpoch);
-
 
 
             }
@@ -166,6 +176,7 @@ function updateVis(f) {
     let fun = fun2mat(f);
     let maxV = fun.max;
     let values = fun.values;
+
 
     // var thresholds = d3.range(1, 20)
     //     .map(function (p) {

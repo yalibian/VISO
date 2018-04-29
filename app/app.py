@@ -8,7 +8,8 @@ import torch.nn as nn
 
 
 # eval('./data/hello world')
-class Model(nn.Module, objectiveFunction=eval("./data")):
+class Model(nn.Module):
+    # class Model(nn.Module, objectiveFunction=eval("./data")):
     def __init__(self, init=False):
         super(Model, self).__init__()
         self.coor = nn.Parameter(torch.randn(2))
@@ -57,17 +58,25 @@ def homepage():
 @app.route('/training', methods=['POST'])
 def training():
     # instances = state['instances']
+
+    print("In Training")
+    print(request.data)
+
     data = json.loads(request.data)
-    data.learning_rate = [0.01, 0.5]
-    data.opt = ["GD", "adam"]
-    data.object = "flower"
-    data.optizizsation = "python code "
+    rate = data["rate"]
+    opt = data["opt"]
+    obj = data["obj"]
+    epoch = data["epoch"]
+    print(rate)
+    print(opt)
+    print(obj)
+    print(epoch)
 
 
-
+    return json.dumps({"res": "hello world"}), 200, {'ContentType': 'application/json'}
+    #-------------------------------------
     # Mi
-    arry1 = function getValues()
-
+    # arry1 = function getValues()
 
 
 
@@ -85,9 +94,9 @@ def training():
 
 
     # -------------------------------------
-    res["pos"].array = Mi
+    # res["pos"].array = Mi
 
-    return json.dumps({"res": res}), 200, {'ContentType': 'application/json'}
+    return json.dumps({"res": "hello world"}), 200, {'ContentType': 'application/json'}
 
 
 # if __name__ == '__main__':
