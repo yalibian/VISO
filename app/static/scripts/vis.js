@@ -1,29 +1,79 @@
 // Populate a grid of n×m values where -2 ≤ x ≤ 2 and -2 ≤ y ≤ 1.
 
-var svg = d3.select("#vis");
-     // width = +svg.attr("width"),
-     // height = +svg.attr("height");
 
+let svg = d3.select("#vis");
 
-var rect = svg.node().getBoundingClientRect(),
+let rect = svg.node()
+        .getBoundingClientRect(),
     width = rect.width,
     height = rect.height;
 
 
-var objectiveFun = "flower";
-// const svg = d3.select('#vis');
+let objectiveFun = "flower";
+let selectedOpt = [];
+let selectedObj = [];
+let selectedEpoch = [];
+let selectedLearningRate = [];
 
-// const width = parseInt(svg.style("width"), 10);
-// const height = parseInt(svg.style("height"), 10);
+Array.prototype.remove = function () {
+    let what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
 
-console.log(width, height);
 
 updateVis(str2fun(objectiveFun));
 
 
 $(document).ready(function () {
-    $('#optimizer').multiselect();
-    $('#epoch').multiselect();
+
+    $('#optimizer').multiselect({
+
+        onChange: function (option, checked, select) {
+            // console.log($(option).val());
+            // console.log(select);
+            // console.log(checked);
+
+            let opt = $(option).val();
+            if (selectedOpt.includes(opt)) {
+                selectedOpt.remove(opt);
+            } else {
+                selectedOpt.push(opt);
+            }
+
+            console.log(selectedOpt);
+
+
+        }
+    });
+
+    $('#epoch').multiselect(
+        {
+
+            onChange: function (option, checked, select) {
+                console.log($(option).val());
+
+                let epoch = $(option).val();
+
+                if (selectedEpoch.includes(epoch)) {
+                    selectedEpoch.remove(epoch);
+                } else {
+                    selectedEpoch.push(epoch);
+                }
+
+                console.log(selectedEpoch);
+
+
+
+            }
+        }
+    );
+
     $('#objective').multiselect({
 
         onChange: function (option, checked, select) {
@@ -37,12 +87,53 @@ $(document).ready(function () {
 
             updateObjectiveFunction($(option).val());
 
+
+            let obj = $(option).val();
+            if (selectedObj.includes(obj)) {
+                selectedObj.remove(obj);
+            } else {
+                selectedObj.push(obj);
+            }
+
+            console.log(selectedObj);
+
             // stopHere(x);
         }
     });
-    $('#learningRate').multiselect();
-    $('#regularizations').multiselect();
-    $('#regularRate').multiselect();
+
+    $('#learningRate').multiselect({
+        onChange: function (option, checked, select) {
+            // console.log($(option).val());
+
+            let rate = $(option).val();
+            if (selectedLearningRate.includes(rate)) {
+                selectedLearningRate.remove(rate);
+            } else {
+                selectedLearningRate.push(rate);
+            }
+
+
+            console.log(selectedLearningRate);
+
+        }
+    });
+
+    $('#regularizations').multiselect(
+        {
+
+            onChange: function (option, checked, select) {
+                console.log($(option).val());
+            }
+        }
+    );
+    $('#regularRate').multiselect(
+        {
+
+            onChange: function (option, checked, select) {
+                console.log($(option).val());
+            }
+        }
+    );
 });
 
 function updateObjectiveFunction(x) {
@@ -67,6 +158,7 @@ function str2fun(objectiveFun) {
 
 }
 
+
 function updateVis(f) {
 
     svg.selectAll("*").remove();
@@ -75,12 +167,14 @@ function updateVis(f) {
     let maxV = fun.max;
     let values = fun.values;
 
+    // var thresholds = d3.range(1, 20)
+    //     .map(function (p) {
+    // return powerScale(p);
+    // return Math.sqrt(p, 2);
+    // });
 
-    var thresholds = d3.range(21, 1, -1)
-        .map(function (p) {
-            return Math.sqrt(p, 2);
-        });
-
+    var thresholds = [0.0025, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.075, 0.10, 0.15, 0.2, 0.5, 0.8, 2.0, 5.00, 10, 25.00, 50, 100, 150.0, 200.0, 250.0, 300.0, 400.0, 500];
+    // thresholds=[0.05, 0.1, 0.2, 0.5, 1.0, 1, 1.4142135623730951, 1.7320508075688772, 2, 2.23606797749979, 2.449489742783178, 2.6457513110645907, 2.8284271247461903, 3, 3.1622776601683795, 3.3166247903554, 3.4641016151377544, 3.605551275463989, 3.7416573867739413, 3.872983346207417, 4, 4.123105625617661, 4.242640687119285, 4.358898943540674];
 
     console.log(thresholds);
 
@@ -110,11 +204,6 @@ function updateVis(f) {
 // calculate the values based on the function, weight, and height
 function fun2mat(f) {
 
-
-    // var n = 240, m = Math.floor(n * width / height);
-    // var m = 170, n = 240;
-    // var m = width, n = height;
-
     let scaleX = d3.scaleLinear()
         .domain([0, width])
         .range([0.0, 1.0]);
@@ -123,34 +212,26 @@ function fun2mat(f) {
         .domain([0, height])
         .range([0.0, 1.0]);
 
-    var values = new Array(width * height);
-    var maxV = 0
+    let values = new Array(width * height);
+    // let maxV = 0;
 
     for (var j = 0.0, k = 0; j < height; ++j) {
         for (var i = 0.0; i < width; ++i, ++k) {
             values[k] = f(scaleX(i), scaleY(j));
-            if (values[k] > maxV){
-                maxV = values[k];
-            }
+            // if (values[k] > maxV) {
+            //     maxV = values[k];
+            // }
         }
     }
 
-    let fun = {"values": values, max: maxV };
+    let fun = {"values": values};
 
     return fun;
 }
 
 
-// See https://en.wikipedia.org/wiki/Test_functions_for_optimization
-// function goldsteinPrice(x, y) {
-//     return (1 + Math.pow(x + y + 1, 2) * (19 - 14 * x + 3 * x * x - 14 * y + 6 * x * x + 3 * y * y))
-//         * (30 + Math.pow(2 * x - 3 * y, 2) * (18 - 32 * x + 12 * x * x + 48 * y - 36 * x * y + 27 * y * y));
-// }
-
 function flower(x, y) {
 
-    // the boud
-    // let X = [-6, 6], Y = [-6, 6];
     let scaleX = d3.scaleLinear()
         .domain([0.0, 1.0])
         .range([-6.0, 6.0]);
@@ -200,7 +281,7 @@ function banana(x, y) {
 
 function matyas(x, y) {
 
-     let scaleX = d3.scaleLinear()
+    let scaleX = d3.scaleLinear()
         .domain([0.0, 1.0])
         .range([-10.0, 10.0]);
 
