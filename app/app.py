@@ -63,6 +63,17 @@ def training():
     data.object = "flower"
     data.optizizsation = "python code "
 
+
+
+    # Mi
+    arry1 = function getValues()
+
+
+
+
+
+    # -------------------------------------
+    # Yao
     res = {}
     for opt in data.opt:
         for rate in data.learning_rate:
@@ -70,6 +81,11 @@ def training():
             learner.learn(data.epoch)
             res["learner"] = learner.coordinates
 
+
+
+
+    # -------------------------------------
+    res["pos"].array = Mi
 
     return json.dumps({"res": res}), 200, {'ContentType': 'application/json'}
 
