@@ -1,6 +1,7 @@
 import numpy as np
 import json
 import pandas as pd
+import math
 from flask import Flask, request
 import torch
 import torch.nn as nn
@@ -54,6 +55,34 @@ def homepage():
     return app.send_static_file('index.html')
 
 
+def scaledValue(width, height, x1, x2, y1, y2, f):
+    X_scale = (x2 - x1) / width * 1.0
+    Y_scale = (y2 - y1) / height * 1.0
+
+    arr = []
+    for x in np.arange(x1, x2, X_scale):
+        for y in np.arange(y1, y2, Y_scale):
+            value = f(x, y)
+            arr.append(value)
+    return arr
+
+def getObjective(s):
+    return lambda x, y: eval(s)
+
+
+def flower(x, y):
+    return x * x + y * y + x * math.sin( y ) + y * math.sin(x)
+
+def matyas(x, y):
+    return 0.26 * (x * x + y * y) + 0.48 * x * y
+
+def banana(x, y):
+    return math.pow(1 - x, 2) + 100 * math.pow(y - x * x, 2)
+
+def himmelblau(x, y):
+    return math.pow(x * x - 11, 2) + math.pow(x + y * y - 7, 2)
+
+
 # Soliciting effective training examples from bootstrap
 @app.route('/training', methods=['POST'])
 def training():
@@ -66,19 +95,39 @@ def training():
     rate = data["rate"]
     opt = data["opt"]
     obj = data["obj"]
-    epoch = data["epoch"]
-    print(rate)
-    print(opt)
-    print(obj)
-    print(epoch)
+    # epoch = data["epoch"]
+    reg = data["reg"]
 
+    customize = True
+    [x1, x2] = data["X"]
+    [y1, y2] = data["Y"]
+    width = data["width"]
+    height = data["height"]
 
-    return json.dumps({"res": "hello world"}), 200, {'ContentType': 'application/json'}
     #-------------------------------------
     # Mi
     # arry1 = function getValues()
+    f = flower
+
+    if customize:
+        f = getObjective(obj)
+    else:
+        if obj == 'flower':
+            f = flower
+        elif obj == 'banana':
+            f = banana
+        elif obj == 'himmelblau':
+            f = himmelblau
+        else:
+            f = matyas
 
 
+    values = scaledValue(width, height, x1, x2, y1, y2, )
+    res = {}
+    res["values"] = values
+
+
+    return json.dumps({"res": res}), 200, {'ContentType': 'application/json'}
 
 
     # -------------------------------------

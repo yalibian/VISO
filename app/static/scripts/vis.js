@@ -34,7 +34,16 @@ $(document).ready(function () {
     $('#play-pause-button')
         .click(function (hello) {
 
-            var obj = {"opt": selectedOpt, "obj": objectiveFun, "epoch": selectedEpoch, "rate": selectedLearningRate};
+
+            var obj = {"opt": selectedOpt, "width": width, "height": height, "obj": objectiveFun, "epoch": selectedEpoch, "rate": selectedLearningRate, "customize": false};
+
+            if($('#myModal').is(":visible")){
+                console.log();
+                obj.X = [$('#x1').val(), $('#x2').val()];
+                obj.Y = [ $('#y1').val(),  $('#y2').val()];
+                obj.customize = true;
+                obj.obj = $('#objective-function-python').val() ;
+            }
 
             d3.request('/training')
                 .mimeType("text/csv")
@@ -42,6 +51,7 @@ $(document).ready(function () {
             console.log("Clicked the Play-pause-button");
         });
 
+    $('#myModal').hide();
 
     $('#optimizer').multiselect({
 
@@ -95,19 +105,30 @@ $(document).ready(function () {
             // $(".ui-objective .multiselect-selected-text").text($(option).html());
             $(".ui-objective .multiselect-selected-text").html($(option).html());
 
-            updateObjectiveFunction($(option).val());
-
 
             let obj = $(option).val();
-            if (selectedObj.includes(obj)) {
-                selectedObj.remove(obj);
+
+            if (obj === "customize") {
+
+                console.log("In customize");
+                // $('#myModal').on('shown.bs.modal', function () {
+                //     $('#myInput').trigger('focus')
+                // })
+                $('#myModal').show();
+
             } else {
-                selectedObj.push(obj);
+                if (selectedObj.includes(obj)) {
+                    selectedObj.remove(obj);
+                } else {
+                    selectedObj.push(obj);
+                }
+
+                $('#myModal').hide();
+
             }
 
-            console.log(selectedObj);
 
-            // stopHere(x);
+            updateObjectiveFunction($(option).val());
         }
     });
 

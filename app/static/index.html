@@ -54,6 +54,29 @@
 
 <div id="main" style="position:relative;display:flex;align-self:stretch;flex-grow:1;height:100%;">
 
+
+    <!-- Modal -->
+    <!--<div id="myModal" class="modal fade" role="dialog">-->
+    <!--<div class="modal-dialog">-->
+
+    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+    <!--<div class="modal-content">-->
+    <!--<div class="modal-header">-->
+    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+    <!--<h4 class="modal-title">Modal Header</h4>-->
+    <!--</div>-->
+    <!--<div class="modal-body">-->
+    <!--<p>Some text in the modal.</p>-->
+    <!--</div>-->
+    <!--<div class="modal-footer">-->
+    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--</div>-->
+    <!--</div>-->
+
+
     <div id="visualization"
          style="flex-direction:column;position:relative;display:flex;align-self:stretch;flex-grow:1;
              min-height: 500px;height:
@@ -82,15 +105,8 @@
                  min-height: 240px;margin-bottom:10px;overflow-y:auto;overflow-x:hidden;border:solid 1px #ccc;">
 
             <!--<div style="font-size:12px;background-color:#eee;font-weight:bold;padding:5px;">CONTROLLER</div>-->
-
             <!--<div id="top-controls">-->
-
-
-            <div class="container l--page">
-
-
-                <!--<hr class="masthead-hr control-line">-->
-                <!--<div class=" text-center">-->
+            <div class="container l--page" style="width: 100%">
                 <div class="timeline-controls">
                     <button class="mdl-button mdl-js-button mdl-button--icon ui-resetButton" id="reset-button"
                             title="Reset the network" data-upgraded=",MaterialButton">
@@ -112,19 +128,22 @@
                 <div class="control ui-optimizer">
                     <label for="optimizer">Optimizer</label>
                     <select id="optimizer" multiple="multiple">
+                        <option value="GD">Gradient Decent</option>
+                        <option value="GDM">Gradient Decent(Momentum)</option>
                         <option value="adagrad">Adagrad</option>
                         <option value="adadelta">Adadelta</option>
                         <option value="adam">Adam</option>
-                        <option value="rmsprop">Rmsprop</option>
-                        <option value="lbfgs">Lbfgs</option>
-                        <option value="upload-opt"><>Upload</option>
+                        <option value="rmsprop">RMSprop</option>
+                        <option value="rmspropM">RMSprop(Momentum)</option>
+                        <!--<option value="bfgs">Bfgs</option>-->
+                        <option value="lbfgs">L-BFGS</option>
                     </select>
                 </div>
 
                 <hr class="masthead-hr control-line">
                 <div class="control ui-objective">
                     <label for="objective">Objective</label>
-                    <select id="objective">
+                    <select id="objective" style="width:70%">
                         <option value="flower">
                             \(x^2 + y^2 + x \sin y + y \sin x \)
                         </option>
@@ -139,7 +158,60 @@
                         <option value="matyas">
                             \(.26 (x^2 + y^2) + .48 x y \)
                         </option>
+
+                        <option value="customize">
+                            <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
+                            Customize
+                        </option>
+
+
                     </select>
+
+                </div>
+
+                <!--<div class="form-inline"  style="margin-bottom: 6px" >-->
+
+                <!--<div id="myModal" class="modal fade" role="dialog">-->
+                <div id="myModal" >
+
+                    <hr class="masthead-hr control-line">
+                    <div class="form-inline" style="margin-bottom: 6px; margin-top: 6px">
+                        <label style="width: 20%">Customized</label>
+                        <div class="form-group" style="width: 70%">
+                            <label class="sr-only" for="objective-function-python">Function Definition</label>
+                            <input type="text" class="form-control" id="objective-function-python" style="width: 100%"
+                                   placeholder="Function Definition in Python">
+                        </div>
+                    </div>
+                    <!--</div>-->
+
+
+                    <div class="form-inline" style="margin-bottom: 6px">
+                        <label style="width: 20%">X domain</label>
+                        <div class="form-group" style="width: 30%">
+                            <label class="sr-only" for="x1">X1</label>
+                            <input type="email" class="form-control" id="x1" style="width: 100%" placeholder="X1">
+                        </div>
+                        <div class="form-group" style="width: 30%">
+                            <label class="sr-only" for="x2">X2</label>
+                            <input type="text" class="form-control" id="x2" style="width: 100%" placeholder="X2">
+                        </div>
+                    </div>
+
+                    <div class="form-inline" style="margin-bottom: 6px">
+                        <label style="width: 20%">Y domain</label>
+                        <div class="form-group" style="width: 30%">
+                            <label class="sr-only" for="y1">Y1</label>
+                            <input type="email" class="form-control" id="y1" style="width: 100%" placeholder="X1">
+                        </div>
+                        <div class="form-group" style="width: 30%">
+                            <label class="sr-only" for="y2">Y2</label>
+                            <input type="text" class="form-control" id="y2" style="width: 100%" placeholder="X2">
+                        </div>
+                    </div>
+
+                    <!--<hr class="masthead-hr control-line">-->
+
                 </div>
 
 
@@ -163,17 +235,28 @@
 
 
                 <hr class="masthead-hr control-line">
+
                 <div class="control ui-regularization">
-                    <label for="regularizations">Regular</label>
+                    <label for="regularizations">Decay Rate</label>
                     <select id="regularizations" multiple="multiple">
-                        <option value="none">None</option>
-                        <option value="L1">L1</option>
-                        <option value="L2">L2</option>
+                        <option value="0.00001">0.00001</option>
+                        <option value="0.0001">0.0001</option>
+                        <option value="0.001">0.001</option>
+                        <option value="0.003">0.003</option>
+                        <option value="0.01">0.01</option>
+                        <option value="0.03">0.03</option>
+                        <option value="0.1">0.1</option>
+                        <option value="0.3">0.3</option>
+                        <option value="1">1</option>
+                        <option value="3">3</option>
+                        <option value="10">10</option>
                     </select>
                 </div>
 
                 <hr class="masthead-hr control-line">
 
+
+                <hr class="masthead-hr control-line">
             </div>
             <!--</div>-->
         </div>
@@ -201,6 +284,12 @@
     },
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
+
+
+
+
+
+
 
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js"></script>
