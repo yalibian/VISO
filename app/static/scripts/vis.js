@@ -9,14 +9,14 @@ let rect = svg.node()
     height = rect.height;
 
 
-let objectiveFun = "flower";
 let selectedOpt = [];
-let selectedObj = [];
+let selectedObj = "flower";
 let selectedEpoch = [];
 let selectedLearningRate = [];
 let selectedDecayRate = [];
 
 Array.prototype.remove = function () {
+
     let what, a = arguments, L = a.length, ax;
     while (L && this.length) {
         what = a[--L];
@@ -29,13 +29,39 @@ Array.prototype.remove = function () {
 
 
 $(document).ready(function () {
+
+    var obj = {
+        "opt": [],
+        "width": width,
+        "height": height,
+        "obj": "flower",
+        "epoch": 1000,
+        "rate": 1000,
+        "reg": 0.01,
+        "customize": false,
+        "X": [-6, 6],
+        "Y": [-6, 6]
+    };
+
+    console.log("init vis-update---1");
+    d3.request('/training')
+        .mimeType("text/csv")
+        .post(JSON.stringify(obj), function (error, y, z) {
+            console.log("init vis-update");
+            let data = JSON.parse(y.response).res;
+            let values = data.values;
+            delete data.values;
+            // console.log(values);
+            updateVis(values, data);
+        });
+
     $('#play-pause-button')
         .click(function (hello) {
             var obj = {
                 "opt": selectedOpt,
                 "width": width,
                 "height": height,
-                "obj": objectiveFun,
+                "obj": selectedObj,
                 "epoch": selectedEpoch,
                 "rate": selectedLearningRate,
                 "reg": selectedDecayRate,
@@ -54,9 +80,11 @@ $(document).ready(function () {
             d3.request('/training')
                 .mimeType("text/csv")
                 .post(JSON.stringify(obj), function (error, y, z) {
-                    let data = JSON.parse(y.response);
+                    let data = JSON.parse(y.response).res;
                     console.log(data);
-                    updateVis(data);
+                    let values = data.values;
+                    delete data.values;
+                    updateVis(values, data);
                 });
         });
 
@@ -72,7 +100,6 @@ $(document).ready(function () {
             } else {
                 selectedOpt.push(opt);
             }
-
             console.log(selectedOpt);
         }
     });
@@ -81,10 +108,8 @@ $(document).ready(function () {
     $('#epoch').multiselect({
 
             onChange: function (option, checked, select) {
-                console.log($(option).val());
 
                 let epoch = $(option).val();
-
                 if (selectedEpoch.includes(epoch)) {
                     selectedEpoch.remove(epoch);
                 } else {
@@ -106,14 +131,8 @@ $(document).ready(function () {
             if (obj === "customize") {
                 $('#myModal').show();
             } else {
-                if (selectedObj.includes(obj)) {
-                    selectedObj.remove(obj);
-                } else {
-                    selectedObj.push(obj);
-                }
-
+                selectedObj = obj;
                 $('#myModal').hide();
-
             }
         }
     });
@@ -129,9 +148,7 @@ $(document).ready(function () {
                 selectedLearningRate.push(rate);
             }
 
-
             console.log(selectedLearningRate);
-
         }
     });
 
@@ -182,18 +199,11 @@ $(document).ready(function () {
 // }
 
 
-function updateVis(f) {
+function updateVis(values, paths) {
 
     svg.selectAll("*").remove();
-
-    let fun = fun2mat(f);
-    let maxV = fun.max;
-    let values = fun.values;
-
-    var thresholds = [0.0025, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.075, 0.10, 0.15, 0.2, 0.5, 0.8, 2.0, 5.00, 10, 25.00, 50, 100, 150.0, 200.0, 250.0, 300.0, 400.0, 500];
-    // thresholds=[0.05, 0.1, 0.2, 0.5, 1.0, 1, 1.4142135623730951, 1.7320508075688772, 2, 2.23606797749979, 2.449489742783178, 2.6457513110645907, 2.8284271247461903, 3, 3.1622776601683795, 3.3166247903554, 3.4641016151377544, 3.605551275463989, 3.7416573867739413, 3.872983346207417, 4, 4.123105625617661, 4.242640687119285, 4.358898943540674];
-
-    console.log(thresholds);
+    console.log(values);
+    let thresholds = [0.0025, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.075, 0.10, 0.15, 0.2, 0.5, 0.8, 2.0, 5.00, 10, 25.00, 50, 100, 150.0, 200.0, 250.0, 300.0, 400.0, 500];
 
     var contours = d3.contours()
         .size([width, height])

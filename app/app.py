@@ -11,11 +11,14 @@ import time
 # import hello.py as
 
 
-class Model(nn.Module):
-    def __init__(self, obj, init=False):
+class Model(nn.Module,):
+    def __init__(self, obj, bounds, init=False):
         super(Model, self).__init__()
-        self.coor = nn.Parameter(torch.randn(2))
+        self.coor = nn.Parameter(torch.rand(2))
+
         self.register_parameter('coordinate', self.coor)
+        # self.coor[0] = (bounds[1] - bounds[0]) * self.coor[0] + bounds[0]
+        # self.coor[1] = (bounds[2] - bounds[3]) * self.coor[1] + bounds[2]
         self.obj = obj
 
     def forward(self):
@@ -24,37 +27,37 @@ class Model(nn.Module):
         x = self.coor[0]
         y = self.coor[1]
 
-        if self.obj == 'flower':
-            f = (x * x) + (y * y) + x * torch.sin(y) + y * torch.sin(x)
-            return f
-
-        if self.obj == 'himmelblau':
-            f = torch.pow(x * x - 11, 2) + torch.pow(x + y * y - 7, 2)
-            return f
-
-        if self.obj == 'banana':
-            f = torch.pow(1 - x, 2) + 100 * torch.pow(y - x * x, 2)
-            return f
-
-        if self.obj == 'matyas':
-            f = 0.26 * (x * x + y * y) + 0.48 * x * y
-            return f
-
-        # def getObjective(s):
-        #     return lambda x, y: eval(s)
-
-        # evals = getObjective(self.obj)
-        print(self.obj)
-        f = eval(self.obj)
+        # if self.obj == 'flower':
+        #     f = (x * x) + (y * y) + x * torch.sin(y) + y * torch.sin(x)
+        #     return f
+        #
+        # if self.obj == 'himmelblau':
+        #     f = torch.pow(x * x - 11, 2) + torch.pow(x + y * y - 7, 2)
+        #     return f
+        #
+        # if self.obj == 'banana':
+        #     f = torch.pow(1 - x, 2) + 100 * torch.pow(y - x * x, 2)
+        #     return f
+        #
+        # if self.obj == 'matyas':
+        #     f = 0.26 * (x * x + y * y) + 0.48 * x * y
+        #     return f
+        #
+        # # def getObjective(s):
+        # #     return lambda x, y: eval(s)
+        #
+        # # evals = getObjective(self.obj)
+        # print(self.obj)
+        f = self.obj
 
         return f
 
 
 class Learner(object):
-    def __init__(self, obj='x*y'):
+    def __init__(self, obj='x*y', bounds=[-6, 6, -6, 6]):
         self.coordinates = []
         self.time = []
-        self.model = Model(obj)
+        self.model = Model(obj, bounds)
         self.lam = 1e-5
 
     def learn(self, opt='lbfgs', epochs=50, lam=1e-3, rate=1e-3):
@@ -66,7 +69,7 @@ class Learner(object):
                 optimizer.zero_grad()
                 loss.backward()
                 cpu_time = time.clock()
-                print(self.model.coor.data.numpy())
+                # print(self.model.coor.data.numpy())
                 self.coordinates.append(self.model.coor.data.numpy())
                 self.time.append(cpu_time)
                 return loss
@@ -120,14 +123,9 @@ class Learner(object):
                 loss.backward()
                 optimizer.step()
                 cpu_time = time.clock()
-                print(self.model.coor.data.numpy())
 
                 self.coordinates.append(self.model.coor.data.numpy().tolist())
                 self.time.append(cpu_time)
-
-
-# learner = Learner()
-# learner.learn()
 
 
 # set the project root directory as the static folder, you can set others.
@@ -144,10 +142,13 @@ def scaledValue(width, height, x1, x2, y1, y2, f):
     Y_scale = (y2 - y1) / height * 1.0
 
     arr = []
-    for x in np.arange(x1, x2, X_scale):
-        for y in np.arange(y1, y2, Y_scale):
+    for y in np.arange(y1, y2, Y_scale):
+        for x in np.arange(x1, x2, X_scale):
             value = f(x, y)
             arr.append(value)
+
+    print(width, height)
+    print(len(arr))
     return arr
 
 
@@ -176,8 +177,8 @@ def himmelblau(x, y):
 def training():
     # instances = state['instances']
 
-    print("In Training")
-    print(request.data)
+    # print("In Training")
+    # print(request.data)
 
     data = json.loads(request.data)
     learning_rates = data["rate"]
@@ -188,11 +189,11 @@ def training():
     width = data["width"]
     height = data["height"]
     customize = data["customize"]
-    print(data)
     # [x1, x2] = data["X"]
     [x1, x2] = [-6, 6]
     # [y1, y2] = data["Y"]
     [y1, y2] = [-6, 6]
+
     f = flower
     if customize:
         f = getObjective(objective)
@@ -206,6 +207,7 @@ def training():
         else:
             f = matyas
 
+    print(objective)
     values = scaledValue(width, height, x1, x2, y1, y2, f)
     res = {}
     res["values"] = values
@@ -214,11 +216,11 @@ def training():
         for rate in learning_rates:
             for reg in decay_dates:
                 key = opt + '-' + rate + '-' + reg
-                learner = Learner(objective)
+                learner = Learner(f, [x1, x2, y1, y2])
                 learner.learn(opt=opt, lam=float(reg), rate=float(rate))
                 res[key] = learner.coordinates
 
-    print(res)
+    # print(res)
     return json.dumps({'res': res}), 200, {'ContentType': 'application/json'}
 
 
