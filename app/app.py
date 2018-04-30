@@ -97,18 +97,13 @@ def training():
     obj = data["obj"]
     # epoch = data["epoch"]
     reg = data["reg"]
-
-    customize = True
-    [x1, x2] = data["X"]
-    [y1, y2] = data["Y"]
     width = data["width"]
     height = data["height"]
-
-    #-------------------------------------
-    # Mi
-    # arry1 = function getValues()
+    customize = data["customize"]
+    print(data)
+    [x1, x2] = data["X"]
+    [y1, y2] = data["Y"]
     f = flower
-
     if customize:
         f = getObjective(obj)
     else:
@@ -122,10 +117,9 @@ def training():
             f = matyas
 
 
-    values = scaledValue(width, height, x1, x2, y1, y2, )
+    values = scaledValue(width, height, x1, x2, y1, y2, f)
     res = {}
     res["values"] = values
-
 
     return json.dumps({"res": res}), 200, {'ContentType': 'application/json'}
 

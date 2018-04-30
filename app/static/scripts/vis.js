@@ -14,6 +14,7 @@ let selectedOpt = [];
 let selectedObj = [];
 let selectedEpoch = [];
 let selectedLearningRate = [];
+let selectedDecayRate = [];
 
 Array.prototype.remove = function () {
     let what, a = arguments, L = a.length, ax;
@@ -35,14 +36,25 @@ $(document).ready(function () {
         .click(function (hello) {
 
 
-            var obj = {"opt": selectedOpt, "width": width, "height": height, "obj": objectiveFun, "epoch": selectedEpoch, "rate": selectedLearningRate, "customize": false};
+            var obj = {
+                "opt": selectedOpt,
+                "width": width,
+                "height": height,
+                "obj": objectiveFun,
+                "epoch": selectedEpoch,
+                "rate": selectedLearningRate,
+                "reg": selectedDecayRate,
+                "customize": false,
+                "X": [-6, 6],
+                "Y": [-6, 6]
+            };
 
-            if($('#myModal').is(":visible")){
+            if ($('#myModal').is(":visible")) {
                 console.log();
                 obj.X = [$('#x1').val(), $('#x2').val()];
-                obj.Y = [ $('#y1').val(),  $('#y2').val()];
+                obj.Y = [$('#y1').val(), $('#y2').val()];
                 obj.customize = true;
-                obj.obj = $('#objective-function-python').val() ;
+                obj.obj = $('#objective-function-python').val();
             }
 
             d3.request('/training')
@@ -97,12 +109,7 @@ $(document).ready(function () {
     $('#objective').multiselect({
 
         onChange: function (option, checked, select) {
-            // console.log($(option).innerHTML);
-            // console.log($(option).innerHTML());
-            // console.log(option.innerHTML());
-            // $(".multiselect-selected-text").html($(option).html());
-            // $(".ui-objective").
-            // $(".ui-objective .multiselect-selected-text").text($(option).html());
+
             $(".ui-objective .multiselect-selected-text").html($(option).html());
 
 
@@ -157,11 +164,18 @@ $(document).ready(function () {
             }
         }
     );
-    $('#regularRate').multiselect(
+    $('#dacayRate').multiselect(
         {
 
             onChange: function (option, checked, select) {
-                console.log($(option).val());
+
+                let opt = $(option).val();
+                if (selectedDecayRate.includes(opt)) {
+                    selectedDecayRate.remove(opt);
+                } else {
+                    selectedDecayRate.push(opt);
+                }
+
             }
         }
     );
@@ -191,6 +205,9 @@ function str2fun(objectiveFun) {
 
 
 function updateVis(f) {
+
+
+    console.log(f);
 
     svg.selectAll("*").remove();
 
