@@ -182,10 +182,11 @@ def training():
     width = data["width"]
     height = data["height"]
     customize = data["customize"]
-    print('--------------------')
-    print(data)
-    print(data['pos'])
-    print('--------------------')
+    pos = data['pos']
+    # print('--------------------')
+    # print(data)
+    # print(data['pos'])
+    # print('--------------------')
     # [x1, x2] = data["X"]
     [x1, x2] = [-6, 6]
     # [y1, y2] = data["Y"]
