@@ -15,6 +15,9 @@ let selectedEpoch = [];
 let selectedLearningRate = [];
 let selectedDecayRate = [];
 
+let selectedX = -6;
+let selectedY = -6;
+
 Array.prototype.remove = function () {
 
     let what, a = arguments, L = a.length, ax;
@@ -43,15 +46,12 @@ $(document).ready(function () {
         "Y": [-6, 6]
     };
 
-    console.log("init vis-update---1");
     d3.request('/training')
         .mimeType("text/csv")
         .post(JSON.stringify(obj), function (error, y, z) {
-            console.log("init vis-update");
             let data = JSON.parse(y.response).res;
             let values = data.values;
             delete data.values;
-            // console.log(values);
             updateVis(values, data);
         });
 
@@ -80,8 +80,8 @@ $(document).ready(function () {
             d3.request('/training')
                 .mimeType("text/csv")
                 .post(JSON.stringify(obj), function (error, y, z) {
+                    console.log(y.response);
                     let data = JSON.parse(y.response).res;
-                    console.log(data);
                     let values = data.values;
                     delete data.values;
                     updateVis(values, data);
@@ -100,9 +100,9 @@ $(document).ready(function () {
             } else {
                 selectedOpt.push(opt);
             }
-            console.log(selectedOpt);
         }
     });
+
 
 
     $('#epoch').multiselect({
@@ -139,7 +139,6 @@ $(document).ready(function () {
 
     $('#learningRate').multiselect({
         onChange: function (option, checked, select) {
-            // console.log($(option).val());
 
             let rate = $(option).val();
             if (selectedLearningRate.includes(rate)) {
@@ -148,20 +147,16 @@ $(document).ready(function () {
                 selectedLearningRate.push(rate);
             }
 
-            console.log(selectedLearningRate);
         }
     });
 
-    $('#regularizations').multiselect(
-        {
+    $('#regularizations').multiselect({
 
-            onChange: function (option, checked, select) {
-                console.log($(option).val());
-            }
+        onChange: function (option, checked, select) {
+            // console.log($(option).val());
         }
-    );
-    $('#dacayRate').multiselect(
-        {
+    });
+    $('#dacayRate').multiselect({
 
             onChange: function (option, checked, select) {
                 let opt = $(option).val();
@@ -199,17 +194,19 @@ $(document).ready(function () {
 // }
 
 
+// 是不是map的问题啊？？？
 function updateVis(values, paths) {
 
     svg.selectAll("*").remove();
-    console.log(values);
     let thresholds = [0.0025, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.075, 0.10, 0.15, 0.2, 0.5, 0.8, 2.0, 5.00, 10, 25.00, 50, 100, 150.0, 200.0, 250.0, 300.0, 400.0, 500];
 
-    var contours = d3.contours()
+
+    // draw contours
+    let contours = d3.contours()
         .size([width, height])
         .thresholds(thresholds);
 
-    var color = d3.scaleLog()
+    let color = d3.scaleLog()
         .domain(d3.extent(thresholds))
         .interpolate(function () {
             return d3.interpolateYlGnBu;
@@ -224,6 +221,97 @@ function updateVis(values, paths) {
         .attr("fill", function (d) {
             return color(d.value);
         });
+
+
+    // draw lines
+    console.log('draw lines');
+    console.log(paths);
+
+    var x = d3.scaleLinear()
+        .rangeRound([0, width]);
+
+    x.domain([-6, 6]);
+
+    var y = d3.scaleLinear()
+        .rangeRound([0, height]);
+    y.domain([-6, 6]);
+
+    console.log('------------------ location: -------------------')
+    console.log(x(-6)); // 0
+    console.log(x(0))
+    console.log(x(6)); // 1440
+
+
+    var line = d3.line()
+        .x(function (d) {
+            return x(d[0]);
+        })
+        .y(function (d) {
+            return y(d[1]);
+        });
+
+
+    // y.domain(d3.extent(data, function (d) {
+    //     return d.close;
+    // }));
+
+    Object.keys(paths).forEach(function (key) {
+
+        console.log(paths[key]);
+
+        svg.append("path")
+            .datum(paths[key])
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-linecap", "round")
+            .attr("stroke-width", 1.5)
+            .attr("d", line);
+    });
+
+
+    // let x = d3.scaleTime().range([0, width]),
+    //     y = d3.scaleLinear().range([height, 0]),
+    //     z = d3.scaleOrdinal(d3.schemeCategory10);
+    //
+    // let line = d3.line()
+    //     .curve(d3.curveBasis)
+    //     .x(function (d) {
+    //         return x(d.date);
+    //     })
+    //     .y(function (d) {
+    //         return y(d.temperature);
+    //     });
+    //
+    // let optpaths = svg.selectAll(".optpath")
+    //     .data(paths)
+    //     .enter()
+    //     .append("g")
+    //     .attr("class", "optpath");
+    //
+    // optpaths.append("path")
+    //     .attr("class", "line")
+    //     .attr("d", function (d) {
+    //         return line(d.values);
+    //     })
+    //     .style("stroke", function (d) {
+    //         return z(d.id);
+    //     });
+
+    // city.append("text")
+    //     .datum(function (d) {
+    //         return {id: d.id, value: d.values[d.values.length - 1]};
+    //     })
+    //     .attr("transform", function (d) {
+    //         return "translate(" + x(d.value.date) + "," + y(d.value.temperature) + ")";
+    //     })
+    //     .attr("x", 3)
+    //     .attr("dy", "0.35em")
+    //     .style("font", "10px sans-serif")
+    //     .text(function (d) {
+    //         return d.id;
+    //     });
+
 
 }
 

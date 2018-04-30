@@ -48,7 +48,7 @@ class Model(nn.Module,):
 
         # evals = getObjective(self.obj)
         # print(self.obj)
-        f = self.obj
+        f = eval(self.obj)
         return f
 
 
