@@ -27,29 +27,28 @@ class Model(nn.Module,):
         x = self.coor[0]
         y = self.coor[1]
 
-        # if self.obj == 'flower':
-        #     f = (x * x) + (y * y) + x * torch.sin(y) + y * torch.sin(x)
-        #     return f
-        #
-        # if self.obj == 'himmelblau':
-        #     f = torch.pow(x * x - 11, 2) + torch.pow(x + y * y - 7, 2)
-        #     return f
-        #
-        # if self.obj == 'banana':
-        #     f = torch.pow(1 - x, 2) + 100 * torch.pow(y - x * x, 2)
-        #     return f
-        #
-        # if self.obj == 'matyas':
-        #     f = 0.26 * (x * x + y * y) + 0.48 * x * y
-        #     return f
-        #
-        # # def getObjective(s):
-        # #     return lambda x, y: eval(s)
-        #
-        # # evals = getObjective(self.obj)
+        if self.obj == 'flower':
+            f = (x * x) + (y * y) + x * torch.sin(y) + y * torch.sin(x)
+            return f
+
+        if self.obj == 'himmelblau':
+            f = torch.pow(x * x - 11, 2) + torch.pow(x + y * y - 7, 2)
+            return f
+
+        if self.obj == 'banana':
+            f = torch.pow(1 - x, 2) + 100 * torch.pow(y - x * x, 2)
+            return f
+
+        if self.obj == 'matyas':
+            f = 0.26 * (x * x + y * y) + 0.48 * x * y
+            return f
+
+        # def getObjective(s):
+        #     return lambda x, y: eval(s)
+
+        # evals = getObjective(self.obj)
         # print(self.obj)
         f = self.obj
-
         return f
 
 
@@ -216,7 +215,7 @@ def training():
         for rate in learning_rates:
             for reg in decay_dates:
                 key = opt + '-' + rate + '-' + reg
-                learner = Learner(f, [x1, x2, y1, y2])
+                learner = Learner(objective, [x1, x2, y1, y2])
                 learner.learn(opt=opt, lam=float(reg), rate=float(rate))
                 res[key] = learner.coordinates
 
