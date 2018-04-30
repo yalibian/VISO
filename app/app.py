@@ -47,7 +47,6 @@ class Model(nn.Module,):
         #     return lambda x, y: eval(s)
 
         # evals = getObjective(self.obj)
-        # print(self.obj)
         f = eval(self.obj)
         return f
 
@@ -68,7 +67,6 @@ class Learner(object):
                 optimizer.zero_grad()
                 loss.backward()
                 cpu_time = time.clock()
-                # print(self.model.coor.data.numpy())
                 self.coordinates.append(self.model.coor.data.numpy())
                 self.time.append(cpu_time)
                 return loss
@@ -146,8 +144,8 @@ def scaledValue(width, height, x1, x2, y1, y2, f):
             value = f(x, y)
             arr.append(value)
 
-    print(width, height)
-    print(len(arr))
+    # print(width, height)
+    # print(len(arr))
     return arr
 
 
@@ -174,10 +172,6 @@ def himmelblau(x, y):
 # Soliciting effective training examples from bootstrap
 @app.route('/training', methods=['POST'])
 def training():
-    # instances = state['instances']
-
-    # print("In Training")
-    # print(request.data)
 
     data = json.loads(request.data)
     learning_rates = data["rate"]
@@ -188,6 +182,10 @@ def training():
     width = data["width"]
     height = data["height"]
     customize = data["customize"]
+    print('--------------------')
+    print(data)
+    print(data['pos'])
+    print('--------------------')
     # [x1, x2] = data["X"]
     [x1, x2] = [-6, 6]
     # [y1, y2] = data["Y"]
@@ -206,7 +204,6 @@ def training():
         else:
             f = matyas
 
-    print(objective)
     values = scaledValue(width, height, x1, x2, y1, y2, f)
     res = {}
     res["values"] = values
@@ -219,7 +216,6 @@ def training():
                 learner.learn(opt=opt, lam=float(reg), rate=float(rate))
                 res[key] = learner.coordinates
 
-    # print(res)
     return json.dumps({'res': res}), 200, {'ContentType': 'application/json'}
 
 

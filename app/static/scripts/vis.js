@@ -15,8 +15,10 @@ let selectedEpoch = [];
 let selectedLearningRate = [];
 let selectedDecayRate = [];
 
+let pos = [-6, -6];
 let selectedX = -6;
 let selectedY = -6;
+let bounds = [[-6, 6], [-6, 6]];
 
 Array.prototype.remove = function () {
 
@@ -30,10 +32,23 @@ Array.prototype.remove = function () {
     return this;
 };
 
+let view2posX = d3.scaleLinear()
+    .domain([0, width])
+    .range(bounds[0]);
+
+let view2posY = d3.scaleLinear()
+    .domain([0, height])
+    .range(bounds[1]);
 
 $(document).ready(function () {
 
-    var obj = {
+    svg.on('click', d => {
+        pos[0] = view2posX(d3.event.x).toFixed(2);
+        pos[1] = view2posY(d3.event.y).toFixed(2);
+        $('#StartPoint').html('(' + pos[0] + ', ' + pos[1] + ')');
+    });
+
+    let obj = {
         "opt": [],
         "width": width,
         "height": height,
@@ -42,6 +57,7 @@ $(document).ready(function () {
         "rate": 1000,
         "reg": 0.01,
         "customize": false,
+        "pos": pos,
         "X": [-6, 6],
         "Y": [-6, 6]
     };
@@ -66,6 +82,7 @@ $(document).ready(function () {
                 "rate": selectedLearningRate,
                 "reg": selectedDecayRate,
                 "customize": false,
+                "pos": pos,
                 "X": [-6, 6],
                 "Y": [-6, 6]
             };
@@ -102,7 +119,6 @@ $(document).ready(function () {
             }
         }
     });
-
 
 
     $('#epoch').multiselect({
@@ -251,8 +267,6 @@ function updateVis(values, paths) {
         });
 
 
-
-
     // console.log();
     // let c10 = d3.scaleCategory10;
     let c10 = d3.scaleOrdinal(d3.schemeCategory10);
@@ -267,7 +281,7 @@ function updateVis(values, paths) {
             .attr("stroke", c10(i))
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
-            .attr("stroke-width", 3.5)
+            .attr("stroke-width", 4.5)
             .attr("d", line);
     });
 
