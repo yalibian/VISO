@@ -5,45 +5,129 @@ import math
 from flask import Flask, request
 import torch
 import torch.nn as nn
+import time
+
+
 # import hello.py as
 
 
-# eval('./data/hello world')
 class Model(nn.Module):
-    # class Model(nn.Module, objectiveFunction=eval("./data")):
-    def __init__(self, init=False):
+    def __init__(self, obj, init=False):
         super(Model, self).__init__()
         self.coor = nn.Parameter(torch.randn(2))
         self.register_parameter('coordinate', self.coor)
+        self.obj = obj
 
     def forward(self):
-        y = torch.sum(torch.pow(self.coor, 2))
-        return y
+        # f = torch.sum(torch.pow(self.coor, 2))
+
+        x = self.coor[0]
+        y = self.coor[1]
+
+        if self.obj == 'flower':
+            f = (x * x) + (y * y) + x * torch.sin(y) + y * torch.sin(x)
+            return f
+
+        if self.obj == 'himmelblau':
+            f = torch.pow(x * x - 11, 2) + torch.pow(x + y * y - 7, 2)
+            return f
+
+        if self.obj == 'banana':
+            f = torch.pow(1 - x, 2) + 100 * torch.pow(y - x * x, 2)
+            return f
+
+        if self.obj == 'matyas':
+            f = 0.26 * (x * x + y * y) + 0.48 * x * y
+            return f
+
+        # def getObjective(s):
+        #     return lambda x, y: eval(s)
+
+        # evals = getObjective(self.obj)
+        print(self.obj)
+        f = eval(self.obj)
+
+        return f
 
 
 class Learner(object):
-    def __init__(self):
+    def __init__(self, obj='x*y'):
         self.coordinates = []
-        self.losses = []
-        self.model = Model()
+        self.time = []
+        self.model = Model(obj)
         self.lam = 1e-5
 
-    def learn(self, epochs=50):
-        optimizer = torch.optim.SGD(
-            self.model.parameters(),
-            lr=1e-2)
+    def learn(self, opt='lbfgs', epochs=50, lam=1e-3, rate=1e-3):
 
-        # weight_decay=self.lam)
-        for epoch in range(epochs):
-            loss = self.model.forward()
-            epoch_loss = loss.data.numpy()[0]
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-            print("Iteration {}: Objective = {}".format(epoch, epoch_loss))
+        if opt == 'lbfgs':
 
-            self.losses.append(epoch_loss)
-            self.coordinates.append(self.model.coor.data.numpy())
+            def fun_closure():
+                loss = self.model.forward()
+                optimizer.zero_grad()
+                loss.backward()
+                cpu_time = time.clock()
+                print(self.model.coor.data.numpy())
+                self.coordinates.append(self.model.coor.data.numpy())
+                self.time.append(cpu_time)
+                return loss
+
+            optimizer = torch.optim.LBFGS(
+                self.model.parameters(),
+                lr=rate)
+            for epoch in range(epochs):
+                optimizer.step(fun_closure)
+
+        else:
+            # set optimizer
+            if opt == 'GD':
+                optimizer = torch.optim.SGD(
+                    self.model.parameters(),
+                    lr=rate, weight_decay=lam)
+
+            if opt == 'adam':
+                optimizer = torch.optim.Adam(
+                    self.model.parameters(),
+                    lr=rate, weight_decay=lam)
+
+            if opt == 'adagrad':
+                optimizer = torch.optim.Adagrad(
+                    self.model.parameters(),
+                    lr=rate, weight_decay=lam)
+
+            if opt == 'adadelta':
+                optimizer = torch.optim.Adadelta(
+                    self.model.parameters(),
+                    lr=rate, weight_decay=lam)
+
+            if opt == 'rmsprop':
+                optimizer = torch.optim.RMSprop(
+                    self.model.parameters(),
+                    lr=rate, weight_decay=lam)
+
+            if opt == 'GDM':
+                optimizer = torch.optim.SGD(
+                    self.model.parameters(),
+                    lr=rate, weight_decay=lam, momentum=0.01)
+
+            if opt == 'rmspropM':
+                optimizer = torch.optim.RMSprop(
+                    self.model.parameters(),
+                    lr=rate, weight_decay=lam, momentum=0.01)
+
+            for epoch in range(epochs):
+                loss = self.model.forward()
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
+                cpu_time = time.clock()
+                print(self.model.coor.data.numpy())
+
+                self.coordinates.append(self.model.coor.data.numpy().tolist())
+                self.time.append(cpu_time)
+
+
+# learner = Learner()
+# learner.learn()
 
 
 # set the project root directory as the static folder, you can set others.
@@ -66,18 +150,22 @@ def scaledValue(width, height, x1, x2, y1, y2, f):
             arr.append(value)
     return arr
 
+
 def getObjective(s):
     return lambda x, y: eval(s)
 
 
 def flower(x, y):
-    return x * x + y * y + x * math.sin( y ) + y * math.sin(x)
+    return x * x + y * y + x * math.sin(y) + y * math.sin(x)
+
 
 def matyas(x, y):
     return 0.26 * (x * x + y * y) + 0.48 * x * y
 
+
 def banana(x, y):
     return math.pow(1 - x, 2) + 100 * math.pow(y - x * x, 2)
+
 
 def himmelblau(x, y):
     return math.pow(x * x - 11, 2) + math.pow(x + y * y - 7, 2)
@@ -92,55 +180,46 @@ def training():
     print(request.data)
 
     data = json.loads(request.data)
-    rate = data["rate"]
-    opt = data["opt"]
-    obj = data["obj"]
+    learning_rates = data["rate"]
+    optimizers = data["opt"]
+    objective = data["obj"]
     # epoch = data["epoch"]
-    reg = data["reg"]
+    decay_dates = data["reg"]
     width = data["width"]
     height = data["height"]
     customize = data["customize"]
     print(data)
-    [x1, x2] = data["X"]
-    [y1, y2] = data["Y"]
+    # [x1, x2] = data["X"]
+    [x1, x2] = [-6, 6]
+    # [y1, y2] = data["Y"]
+    [y1, y2] = [-6, 6]
     f = flower
     if customize:
-        f = getObjective(obj)
+        f = getObjective(objective)
     else:
-        if obj == 'flower':
+        if objective == 'flower':
             f = flower
-        elif obj == 'banana':
+        elif objective == 'banana':
             f = banana
-        elif obj == 'himmelblau':
+        elif objective == 'himmelblau':
             f = himmelblau
         else:
             f = matyas
-
 
     values = scaledValue(width, height, x1, x2, y1, y2, f)
     res = {}
     res["values"] = values
 
-    return json.dumps({"res": res}), 200, {'ContentType': 'application/json'}
+    for opt in optimizers:
+        for rate in learning_rates:
+            for reg in decay_dates:
+                key = opt + '-' + rate + '-' + reg
+                learner = Learner(objective)
+                learner.learn(opt=opt, lam=float(reg), rate=float(rate))
+                res[key] = learner.coordinates
+
+    print(res)
+    return json.dumps({'res': res}), 200, {'ContentType': 'application/json'}
 
 
-    # -------------------------------------
-    # Yao
-    res = {}
-    for opt in data.opt:
-        for rate in data.learning_rate:
-            learner = Learner()
-            learner.learn(data.epoch)
-            res["learner"] = learner.coordinates
-
-
-
-
-    # -------------------------------------
-    # res["pos"].array = Mi
-
-    return json.dumps({"res": "hello world"}), 200, {'ContentType': 'application/json'}
-
-
-# if __name__ == '__main__':
 app.run(debug=True)
