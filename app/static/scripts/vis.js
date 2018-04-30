@@ -242,7 +242,7 @@ function updateVis(values, paths) {
     console.log(x(6)); // 1440
 
 
-    var line = d3.line()
+    let line = d3.line()
         .x(function (d) {
             return x(d[0]);
         })
@@ -251,21 +251,23 @@ function updateVis(values, paths) {
         });
 
 
-    // y.domain(d3.extent(data, function (d) {
-    //     return d.close;
-    // }));
 
-    Object.keys(paths).forEach(function (key) {
+
+    // console.log();
+    // let c10 = d3.scaleCategory10;
+    let c10 = d3.scaleOrdinal(d3.schemeCategory10);
+
+
+    Object.keys(paths).forEach(function (key, i) {
 
         console.log(paths[key]);
-
         svg.append("path")
             .datum(paths[key])
             .attr("fill", "none")
-            .attr("stroke", "steelblue")
+            .attr("stroke", c10(i))
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
-            .attr("stroke-width", 1.5)
+            .attr("stroke-width", 3.5)
             .attr("d", line);
     });
 
