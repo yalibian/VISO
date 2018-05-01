@@ -19,14 +19,16 @@ For this project, we build a GUI that compares different optimization algorithms
 - Adam
 - RMSprop
 
-#### Objective types to be tested with:
+#### Objectives types to be tested with:
 - convex
 - non-convex 
 
-We run each optimization algorithm on several typical example of each objective type, for each algorithm, we compare different settings of hyperparameters. Also we support user-defined objectives/initialization and return real time results for users to try more experiments than those provided.
+We choose two types objective functions (convex and non-convex) to test. We run each optimization algorithm on several typical example of each objective type, for each algorithm  (flower function, Himmelblau function, banana function and matyas function), and compare different settings of hyperparameters. Also we support user-defined objectives/initialization and return real time results for users to try more experiments than those provided. And according to the user-defined objective function, we define the 2d panel of the function. As a result, the convergence process can be better visualized.
 
 For the GUI part, we provide an web-based visual analytics system to give users a clear view of the behavior and properties of different optimization algorithms on different objectives, including analysis of the influence of hyperparameters and visual diagnosis of algorithm performance. It also support some extend of customization. For visualization, there are three important parts included for machine learning researchers to explore and interact with “Optimization Algorithms” and “Objective Functions”. 
+
 More interactions and views for researchers to select optimization algorithms and input their own objective functions effectively and efficiently. 
+
 Multiple and coordinated views are used to explore and compare different optimization algorithms on one specific objective function or different objective functions on one optimization algorithms.
 More visual clues/hints are showed to recommend researchers about the status of searching loops, which would be better for researchers to diagnose the relevant optimization algorithm. 
 
