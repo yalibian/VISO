@@ -9,6 +9,7 @@ let rect = svg.node()
     height = rect.height;
 
 
+let bar_height = d3.select('#visualization-bar').node().getBoundingClientRect().height;
 let selectedOpt = [];
 let selectedObj = "flower";
 let selectedEpoch = [];
@@ -40,11 +41,34 @@ let view2posY = d3.scaleLinear()
     .domain([0, height])
     .range(bounds[1]);
 
+function drawCircle(x, y, size) {
+    // console.log('Drawing circle at', x, y, size);
+    svg.selectAll("circle")
+        .remove();
+
+    svg.append("circle")
+        .attr('class', 'click-circle')
+        .attr('fill', 'yellow')
+        .attr("cx", x)
+        .attr("cy", y)
+        .attr("r", size);
+}
+
+
+
 $(document).ready(function () {
 
     svg.on('click', d => {
-        pos[0] = view2posX(d3.event.x).toFixed(2);
-        pos[1] = view2posY(d3.event.y).toFixed(2);
+
+        console.log('------------');
+        [x, y] = [d3.event.x, d3.event.y];
+        // console.log(x, y);
+        console.log(bar_height);
+        console.log(d3.event.clientX, d3.event.clientY-bar_height);
+        pos[0] = view2posX(x).toFixed(2);
+        pos[1] = view2posY(y-bar_height).toFixed(2);
+        drawCircle(x, y-bar_height, 5.5);
+        // drawCircle(0, 0, 5.5);
         $('#StartPoint').html('(' + pos[0] + ', ' + pos[1] + ')');
     });
 
@@ -208,6 +232,7 @@ $(document).ready(function () {
 //     }
 //
 // }
+
 
 
 // 是不是map的问题啊？？？
