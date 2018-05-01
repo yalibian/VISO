@@ -55,7 +55,6 @@ function drawCircle(x, y, size) {
 }
 
 
-
 $(document).ready(function () {
 
     svg.on('click', d => {
@@ -64,10 +63,10 @@ $(document).ready(function () {
         [x, y] = [d3.event.x, d3.event.y];
         // console.log(x, y);
         console.log(bar_height);
-        console.log(d3.event.clientX, d3.event.clientY-bar_height);
+        console.log(d3.event.clientX, d3.event.clientY - bar_height);
         pos[0] = view2posX(x).toFixed(2);
-        pos[1] = view2posY(y-bar_height).toFixed(2);
-        drawCircle(x, y-bar_height, 5.5);
+        pos[1] = view2posY(y - bar_height).toFixed(2);
+        drawCircle(x, y - bar_height, 5.5);
         // drawCircle(0, 0, 5.5);
         $('#StartPoint').html('(' + pos[0] + ', ' + pos[1] + ')');
     });
@@ -234,7 +233,6 @@ $(document).ready(function () {
 // }
 
 
-
 // 是不是map的问题啊？？？
 function updateVis(values, paths) {
 
@@ -284,6 +282,7 @@ function updateVis(values, paths) {
 
 
     let line = d3.line()
+    // .interpolate("cardinal")
         .x(function (d) {
             return x(d[0]);
         })
@@ -300,14 +299,48 @@ function updateVis(values, paths) {
     Object.keys(paths).forEach(function (key, i) {
 
         console.log(paths[key]);
-        svg.append("path")
-            .datum(paths[key])
-            .attr("fill", "none")
+
+
+        // svg.append("path")
+        //     .datum(paths[key])
+        //     .attr("fill", "none")
+        //     .attr("stroke", c10(i))
+        //     .attr("stroke-linejoin", "round")
+        //     .attr("stroke-linecap", "round")
+        //     .attr("stroke-width", 4.5)
+        //     .attr("d", line);
+
+        let transition = function (path) {
+            path.transition()
+                .duration(2000)
+                .attrTween("stroke-dasharray", tweenDash);
+        };
+
+        let tweenDash = function () {
+            let l = this.getTotalLength(),
+                i = d3.interpolateString("0," + l, l + "," + l);
+            return function (t) {
+                return i(t);
+            };
+        };
+
+        let path = svg.append("path")
+            .attr("d", line(paths[key]))
             .attr("stroke", c10(i))
-            .attr("stroke-linejoin", "round")
-            .attr("stroke-linecap", "round")
-            .attr("stroke-width", 4.5)
-            .attr("d", line);
+            .attr("stroke-width", "3")
+            .attr("fill", "none")
+            .call(transition);
+
+        // let totalLength = path.node().getTotalLength();
+
+        // path
+        //     .attr("stroke-dasharray", totalLength + " " + totalLength)
+        //     .attr("stroke-dashoffset", totalLength)
+        //     .transition()
+        //     .duration(2000)
+        //     .ease("linear")
+        //     .attr("stroke-dashoffset", 0);
+
     });
 
 
