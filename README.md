@@ -26,10 +26,10 @@ For this project, we will build a GUI that compares different optimization algor
 
 We run each optimization algorithm on several typical example of each objective type, for each algorithm, we compare different settings of hyperparameters. Also we support user-defined objectives/initialization and return real time results for users to try more experiments than those provided.
 
-For the GUI part, we provide an web-based visual analytics system to give users a clear view of the behavior and properties of different optimization algorithms on different objectives, including analysis of the influence of hyperparameters and visual diagnosis of algorithm performance. Ideally, it should also support some extend of customization. For visualization, there will be three important parts included for machine learning researchers to explore and interact with “Optimization Algorithms” and “Objective Functions”. 
+For the GUI part, we provide an web-based visual analytics system to give users a clear view of the behavior and properties of different optimization algorithms on different objectives, including analysis of the influence of hyperparameters and visual diagnosis of algorithm performance. It also support some extend of customization. For visualization, there are three important parts included for machine learning researchers to explore and interact with “Optimization Algorithms” and “Objective Functions”. 
 More interactions and views for researchers to select optimization algorithms and input their own objective functions effectively and efficiently. 
-Multiple and coordinated views will be used to explore and compare different optimization algorithms on one specific objective function or different objective functions on one optimization algorithms.
-More visual clues/hints will be showed to recommend researchers about the status of searching loops, which would be better for researchers to diagnose the relevant optimization algorithm. 
+Multiple and coordinated views are used to explore and compare different optimization algorithms on one specific objective function or different objective functions on one optimization algorithms.
+More visual clues/hints are showed to recommend researchers about the status of searching loops, which would be better for researchers to diagnose the relevant optimization algorithm. 
 
 ## Reference
 
