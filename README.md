@@ -1,7 +1,7 @@
 # vis-optimization
 
 ### Introduction 
-The optimization algorithm is one of the most important concepts in deep learning to optimize neural networks. people can get various optimization algorithms in every deep learning library easily.These algorithms, however, are often used as black-box optimizers. Thus, it's a little difficult to understand every algorithms strengths and weaknesses. We try 6 different optimization algorithms on different objective functions (convex, non-convex) with detailed visualizations and diagnostics. We hope this would help people comprehend the behavior of different optimization algorithms intuitively and put the algorithms to use in the certain environment. 
+The optimization algorithm is one of the most important concepts in deep learning to optimize neural networks. people can get various optimization algorithms in every deep learning library easily. These algorithms, however, are often used as black-box optimizers. Thus, it's a little difficult to understand every algorithms strengths and weaknesses. We try 6 different optimization algorithms on different objective functions (convex, non-convex) with detailed visualizations and diagnostics. We hope this would help people comprehend the behavior of different optimization algorithms intuitively and put the algorithms to use in the certain environment. 
 
 ### Related works
 Before we start the project, we read some relevant papers. Sebastian Ruder in ”An overview of gradient descent optimization algorithms” [8] provides the behavior of different algorithms that will allow using. This paper looks at different variants of the optimization algorithm, introduces the most common optimization algorithms and investigates additional strategies for optimizing gradient descent. It's pity that in its visualization part, there are 2D figures and they cannot interact with users (The paper also post in the author's website). "An Interactive Tutorial on Numerical Optimization"[6] is a pretty good example of visualizing optimization algorithms. However, we find it doesn't conclude some popular algorithms, such as Adagrad, Adam, and BFGS etc.
@@ -9,7 +9,7 @@ Before we start the project, we read some relevant papers. Sebastian Ruder in �
 In addition to the above two articles. What is worth challenging is the learning rate. If learning rate is too small, it would lead slow convergence. If learning rate is too large, it may hinder convergence and cause the loss function to fluctuate around the minimum or even to diverge. So we hope to find a right learning rate for each algorithm. What's more, we may not want to apply same learning rate to all parameters when the data is sparse and the features have different frequencies. Meanwhile, we would hope to update the learning rate for particular ones of them.
 
 ### Proposed work
-For this project, we will build a GUI that compares different optimization algorithms on different objective functions (strongly convex, convex, non-convex) with detailed visualizations and diagnostics. 
+For this project, we build a GUI that compares different optimization algorithms on different objective functions (convex, non-convex) with detailed visualizations and diagnostics. 
 
 #### Implemented optimization algorithms include:
 - Gradient Descent
@@ -20,7 +20,6 @@ For this project, we will build a GUI that compares different optimization algor
 - RMSprop
 
 #### Objectives types to be tested with:
-- strongly convex
 - convex
 - non-convex 
 
