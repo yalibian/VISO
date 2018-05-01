@@ -33,7 +33,7 @@ Multiple and coordinated views are used to explore and compare different optimiz
 More visual clues/hints are showed to recommend researchers about the status of searching loops, which would be better for researchers to diagnose the relevant optimization algorithm. 
 
 ### Sample Results
-Next, We used the GUI built to study the effect of different factors, including the convexity of objectives, optimizers, learning rate, weight decay, initialization
+Next, We used the GUI built to study the effect of different factors, including the convexity of objectives, optimizers, learning rate, weight decay, initialization and momentum.
 
 #### Compare objectives
 
@@ -42,11 +42,13 @@ Next, We used the GUI built to study the effect of different factors, including 
 #### Compare learning rates
 
 #### Compare weight decay
+We run RMSprop on a non-convex function, with weight decay = __ vs. weight decay = __ Learning rate = , 
 
 #### Compare Initialization
+We run Adam with different initialization on a non-convex function.
 
 #### Compare momentum
-
+We run RMSprop on a non-convex function without momentum vs. momentum = 
 
 ### Reference
 
