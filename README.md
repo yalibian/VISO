@@ -19,7 +19,7 @@ For this project, we build a GUI that compares different optimization algorithms
 - Adam
 - RMSprop
 
-#### Objectives types to be tested with:
+#### Objective types to be tested with:
 - convex
 - non-convex 
 
