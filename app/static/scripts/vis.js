@@ -16,10 +16,20 @@ let selectedEpoch = [];
 let selectedLearningRate = [];
 let selectedDecayRate = [];
 
-let pos = [-6, -6];
+let bounds = [-6, 6, -6, 6];
+
+let scalePosX = d3.scaleLinear()
+    .domain([0, 1])
+    .range([bounds[0], bounds[1]]);
+
+let scalePosY = d3.scaleLinear()
+    .domain([0, 1])
+    .range([bounds[2], bounds[3]]);
+
+let pos = [scalePosX(Math.random()), scalePosY(Math.random())];
+
 let selectedX = -6;
 let selectedY = -6;
-let bounds = [[-6, 6], [-6, 6]];
 
 Array.prototype.remove = function () {
 
@@ -35,11 +45,11 @@ Array.prototype.remove = function () {
 
 let view2posX = d3.scaleLinear()
     .domain([0, width])
-    .range(bounds[0]);
+    .range([bounds[0], bounds[1]]);
 
 let view2posY = d3.scaleLinear()
     .domain([0, height])
-    .range(bounds[1]);
+    .range([bounds[2], bounds[3]]);
 
 function drawCircle(x, y, size) {
     // console.log('Drawing circle at', x, y, size);
@@ -210,28 +220,6 @@ $(document).ready(function () {
     );
 });
 
-// function updateObjectiveFunction(x) {
-//     ObjectveFunction
-//     objectiveFun = x;
-//     updateVis(str2fun(objectiveFun));
-// }
-
-// function str2fun(objectiveFun) {
-//     switch (objectiveFun) {
-//         case "goldsteinPrice":
-//             return goldsteinPrice;
-//         case "flower":
-//             return flower;
-//         case "himmelblau":
-//             return himmelblau;
-//         case "banana":
-//             return banana;
-//         case "matyas":
-//             return matyas;
-//     }
-//
-// }
-
 
 // 是不是map的问题啊？？？
 function updateVis(values, paths) {
@@ -294,21 +282,12 @@ function updateVis(values, paths) {
     // console.log();
     // let c10 = d3.scaleCategory10;
     let c10 = d3.scaleOrdinal(d3.schemeCategory10);
-
+    let keys = [];
+    let colors = [];
 
     Object.keys(paths).forEach(function (key, i) {
 
         console.log(paths[key]);
-
-
-        // svg.append("path")
-        //     .datum(paths[key])
-        //     .attr("fill", "none")
-        //     .attr("stroke", c10(i))
-        //     .attr("stroke-linejoin", "round")
-        //     .attr("stroke-linecap", "round")
-        //     .attr("stroke-width", 4.5)
-        //     .attr("d", line);
 
         let transition = function (path) {
             path.transition()
@@ -329,8 +308,11 @@ function updateVis(values, paths) {
             .attr("stroke", c10(i))
             .attr("stroke-width", "3")
             .attr("fill", "none")
+            .attr("data-legend", key)
             .call(transition);
 
+        keys.push(key);
+        colors.push(c10(i));
         // let totalLength = path.node().getTotalLength();
 
         // path
@@ -342,6 +324,55 @@ function updateVis(values, paths) {
         //     .attr("stroke-dashoffset", 0);
 
     });
+
+
+    let legend_svg = d3.select('#vis-legend');
+
+    var symbolScale = d3.scaleOrdinal()
+        .domain(keys)
+        .range(colors);
+
+    legend_svg.append("g")
+        .attr("class", "legendSymbol")
+        .attr("transform", "translate(20, 20)");
+
+    var legendPath = d3.legendColor()
+        // .labelFormat(d3.format(".2f"))
+        // .labels(d3.legendHelpers.thresholdLabels)
+        // .useClass(true)
+        // .orient("horizontal")
+        .scale(symbolScale);
+
+
+    // var legendPath = d3.legendSymbol()
+    //     .scale(symbolScale)
+    //     .orient("horizontal")
+    //     .labelWrap(30)
+    //     .title("All the Optimiziers: ");
+
+    legend_svg.select(".legendSymbol")
+        .call(legendPath);
+
+
+    // svg.append("g")
+    //     .attr("class", "legendQuant")
+    //     .attr("transform", "translate(20,20)");
+    //
+    // var legend = d3.legendColor()
+    //     .labelFormat(d3.format(".2f"))
+    //     .useClass(true)
+    //     .title("A really really really really really long title")
+    //     .titleWidth(100)
+    //     .scale(quantize);
+    //
+    // svg.select(".legendQuant")
+    //     .call(legend);
+
+    // legend = svg.append("g")
+    // .attr("class","legend")
+    // .attr("transform","translate(50,30)")
+    // .style("font-size","12px")
+    // .call(d3.legend)
 
 
     // let x = d3.scaleTime().range([0, width]),

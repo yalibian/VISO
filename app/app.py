@@ -7,22 +7,28 @@ import torch
 import torch.nn as nn
 import time
 
+from torch.autograd import Variable
 
-# import hello.py as
 
-
-class Model(nn.Module,):
-    def __init__(self, obj, bounds, init=False):
+class Model(nn.Module):
+    def __init__(self, obj, init=False):
         super(Model, self).__init__()
-        self.coor = nn.Parameter(torch.rand(2))
+        # if init == False:
+        #     bounds = torch.from_numpy(np.array(bounds)).type(torch.FloatTensor)
+        #     coor = torch.rand(2)
+        #     coor[0] = (bounds[1]-bounds[0]) * coor[0] + bounds[0]
+        #     coor[1] = (bounds[3]-bounds[2]) * coor[1] + bounds[2]
+        # else:
+        init = [float(i) for i in init]
+        coor = torch.from_numpy(np.array(init)).type(torch.FloatTensor)
+
+        self.coor = nn.Parameter(coor)
 
         self.register_parameter('coordinate', self.coor)
-        # self.coor[0] = (bounds[1] - bounds[0]) * self.coor[0] + bounds[0]
-        # self.coor[1] = (bounds[2] - bounds[3]) * self.coor[1] + bounds[2]
+
         self.obj = obj
 
     def forward(self):
-        # f = torch.sum(torch.pow(self.coor, 2))
 
         x = self.coor[0]
         y = self.coor[1]
@@ -43,22 +49,23 @@ class Model(nn.Module,):
             f = 0.26 * (x * x + y * y) + 0.48 * x * y
             return f
 
-        # def getObjective(s):
-        #     return lambda x, y: eval(s)
+        def getObjective(s):
+            return lambda x, y: eval(s)
 
-        # evals = getObjective(self.obj)
-        f = eval(self.obj)
+        evals = getObjective(self.obj)
+        f = evals(x, y)
+
         return f
 
 
 class Learner(object):
-    def __init__(self, obj='x*y', bounds=[-6, 6, -6, 6]):
+    def __init__(self, obj, initialization):
         self.coordinates = []
         self.time = []
-        self.model = Model(obj, bounds)
+        self.model = Model(obj, initialization)
         self.lam = 1e-5
 
-    def learn(self, opt='lbfgs', epochs=50, lam=1e-3, rate=1e-3):
+    def learn(self, opt='lbfgs', epochs=500, lam=1e-3, rate=1e-1):
 
         if opt == 'lbfgs':
 
@@ -67,6 +74,8 @@ class Learner(object):
                 optimizer.zero_grad()
                 loss.backward()
                 cpu_time = time.clock()
+                print
+                self.model.coor.data.numpy()
                 self.coordinates.append(self.model.coor.data.numpy())
                 self.time.append(cpu_time)
                 return loss
@@ -120,9 +129,124 @@ class Learner(object):
                 loss.backward()
                 optimizer.step()
                 cpu_time = time.clock()
+                # print self.model.coor.data.numpy()
 
                 self.coordinates.append(self.model.coor.data.numpy().tolist())
                 self.time.append(cpu_time)
+
+
+# class Model(nn.Module,):
+#     def __init__(self, obj, bounds, init=False):
+#         super(Model, self).__init__()
+#         self.coor = nn.Parameter(torch.rand(2))
+#
+#         self.register_parameter('coordinate', self.coor)
+#         self.coor[0] = (bounds[1] - bounds[0]) * self.coor[0] + bounds[0]
+#         self.coor[1] = (bounds[2] - bounds[3]) * self.coor[1] + bounds[2]
+# self.obj = obj
+#
+# def forward(self):
+#     f = torch.sum(torch.pow(self.coor, 2))
+#
+# x = self.coor[0]
+# y = self.coor[1]
+#
+# if self.obj == 'flower':
+#     f = (x * x) + (y * y) + x * torch.sin(y) + y * torch.sin(x)
+#     return f
+#
+# if self.obj == 'himmelblau':
+#     f = torch.pow(x * x - 11, 2) + torch.pow(x + y * y - 7, 2)
+#     return f
+#
+# if self.obj == 'banana':
+#     f = torch.pow(1 - x, 2) + 100 * torch.pow(y - x * x, 2)
+#     return f
+#
+# if self.obj == 'matyas':
+#     f = 0.26 * (x * x + y * y) + 0.48 * x * y
+#     return f
+#
+# def getObjective(s):
+#     return lambda x, y: eval(s)
+
+# evals = getObjective(self.obj)
+# f = eval(self.obj)
+# return f
+
+
+# class Learner(object):
+#     def __init__(self, obj='x*y', bounds=[-6, 6, -6, 6]):
+#         self.coordinates = []
+#         self.time = []
+#         self.model = Model(obj, bounds)
+#         self.lam = 1e-5
+#
+#     def learn(self, opt='lbfgs', epochs=50, lam=1e-3, rate=1e-3):
+#
+#         if opt == 'lbfgs':
+#
+#             def fun_closure():
+#                 loss = self.model.forward()
+#                 optimizer.zero_grad()
+#                 loss.backward()
+#                 cpu_time = time.clock()
+#                 self.coordinates.append(self.model.coor.data.numpy())
+#                 self.time.append(cpu_time)
+#                 return loss
+
+# optimizer = torch.optim.LBFGS(
+#     self.model.parameters(),
+#     lr=rate)
+# for epoch in range(epochs):
+#     optimizer.step(fun_closure)
+#
+# else:
+#     set optimizer
+#     if opt == 'GD':
+#         optimizer = torch.optim.SGD(
+#             self.model.parameters(),
+#             lr=rate, weight_decay=lam)
+#
+#     if opt == 'adam':
+#         optimizer = torch.optim.Adam(
+#             self.model.parameters(),
+#             lr=rate, weight_decay=lam)
+#
+#     if opt == 'adagrad':
+#         optimizer = torch.optim.Adagrad(
+#             self.model.parameters(),
+#             lr=rate, weight_decay=lam)
+#
+#     if opt == 'adadelta':
+#         optimizer = torch.optim.Adadelta(
+#             self.model.parameters(),
+#             lr=rate, weight_decay=lam)
+#
+#     if opt == 'rmsprop':
+#         optimizer = torch.optim.RMSprop(
+#             self.model.parameters(),
+#             lr=rate, weight_decay=lam)
+#
+#     if opt == 'GDM':
+#         optimizer = torch.optim.SGD(
+#             self.model.parameters(),
+#             lr=rate, weight_decay=lam, momentum=0.01)
+#
+#     if opt == 'rmspropM':
+#         optimizer = torch.optim.RMSprop(
+#             self.model.parameters(),
+#             lr=rate, weight_decay=lam, momentum=0.01)
+#
+#     for epoch in range(epochs):
+#         loss = self.model.forward()
+#         optimizer.zero_grad()
+#         loss.backward()
+#         optimizer.step()
+#         cpu_time = time.clock()
+#
+#         self.coordinates.append(self.model.coor.data.numpy().tolist())
+#         self.time.append(cpu_time)
 
 
 # set the project root directory as the static folder, you can set others.
@@ -172,7 +296,6 @@ def himmelblau(x, y):
 # Soliciting effective training examples from bootstrap
 @app.route('/training', methods=['POST'])
 def training():
-
     data = json.loads(request.data)
     learning_rates = data["rate"]
     optimizers = data["opt"]
@@ -191,6 +314,7 @@ def training():
     [x1, x2] = [-6, 6]
     # [y1, y2] = data["Y"]
     [y1, y2] = [-6, 6]
+    print(pos)
 
     f = flower
     if customize:
@@ -213,7 +337,7 @@ def training():
         for rate in learning_rates:
             for reg in decay_dates:
                 key = opt + '-' + rate + '-' + reg
-                learner = Learner(objective, [x1, x2, y1, y2])
+                learner = Learner(objective, pos)
                 learner.learn(opt=opt, lam=float(reg), rate=float(rate))
                 res[key] = learner.coordinates
 

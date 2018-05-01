@@ -12,50 +12,98 @@
 
 <body>
 <div class="container" id="main-view">
-     <div class="content" id="content" role="main">
+    <div class="content" id="content" role="main">
+<h1 id="vis-optimization">vis-optimization</h1>
 
-<h1 id="visml-interactive-visualization-for-machine-learning">Interactive Visualization for Machine Learning</h1>
-<h2 id="motivations">MOTIVATIONS</h2>
-<p>Our main idea is to explore how visualization with interactions [1] could improve the efficiency of communications between human and machine learning: how could interactive visualization could help users create machine learning algorithms effectively and efficiently.</p>
-<h2 id="related-works">RELATED WORKS</h2>
-<p>Before our own design, we have explored the topic through both HCI and machine learning fields, and make a list of comparison of current research in HCI and Machine Learning.</p>
-<h3 id="1-machine-learning">1. Machine Learning:</h3>
-<p>The topic of effective machine learning creation has been explored in different perspectives in the machine learning fields: Active learning [2] tries to using less but the most valuable labels that provides the greatest information gain, evaluating effectiveness and efficiency as the numbers of examples users should label. Machine teaching [3] is an optimization problem over teaching examples that balance the future loss of the learner (machine learning algorithm) and the effort of the teacher. Interactive machine learning [4] tries to improve human teacher by giving teachings guidance, when human training an agent to perform a classification task by showing examples. The interactive machine learning also tries to improve the effectiveness of classifier creation through the efficiency of labeling. The guidance for users could improve the labeling efficiency based on provides users more information, the context about labeling could let users labeling quickly than labeling less examples without any context.<br>
-Since current research on interactive machine learning are mainly works on how to provides users guides based on different presentation techniques based on ranking or neighbors. For our project, we plan to provides more context through visualization and let users labeling and explore dataset interactively.</p>
-<h3 id="2-visual-analytics">2. Visual Analytics:</h3>
-<p>Visual analytics [5] aims at providing visual platforms for users to interact directly with data and models through combining the power of automated data analysis and mining. Visual analytics researchers mainly explore the topic through how to make users effectively expressing their knowledge and preferences visually and interactively to data mining or machine learning methods. The visual classifier training model [6] presents an approach for building classifiers interactively and visually: how classifiers can be trained in a visual and interactive manner to improve recall and generalization for searching and filtering tasks in visual analytics scenarios. The Visual Classifier Training model mainly works on how to build classifiers interactively and visually in order to complement classical supervised machine learning techniques.<br>
-Our project is also about creating a visual classifier training model, but providing more guidance based on interactive machine learning instead of active learning. We will also try to explore how different visualization layout could affect the labeling effect.</p>
-<h2 id="progress">PROGRESS</h2>
-<p>We got our idea of interactive machine learning powered with interactive visualization based on the combination of the visual classifier training model and Effective End-user Interaction with Machine Learning [7]. How could we interact with supervised machine learning in an observation level effectively - letting users explore big dataset and label items, sense-make current machine learning state in on visualization workspace. Instead of using several different visualization views to present the quality of the classifier, the status of the classifiers, the contents of the labels, we create only one visualization view (workspace) to let users explore the dataset and express their preference, and also let classifier re-layout the view to express the status, the quality of the classifiers.</p>
-<h3 id="1-dataset-20-newsgroups">1. Dataset: 20 Newsgroups</h3>
-<p>Since we are trying to develop a visual analytics application that combining both visualization with interactive machine learning. One of the most common used dataset for classification is the 20 Newsgroups. The 20 Newsgroups [8] data set is a collection of approximately 20,000 newsgroup documents in 20 different newsgroups. We first use calculated information gain to re-rank the features, and only take the first 5000 significant features as training.</p>
-<h3 id="2-interactive-machine-learning">2. Interactive Machine Learning</h3>
-<p>Based on the framework of interactive machine learning, the most basic interactive machine learning algorithms used in academic research is 'nearest-neighbor classifier' [9]: through re-rank samples with or without specific features, which could present examples illustrating its current understanding of the desired classifier and users use this presentation to decide how to further improve the system's understanding. Right now, we have use the basic KNN classification methods on Scikit-Learn to test current dataset. By setting the K value to 20, and rearrange the data matrix shape to fit the training function, we got a matching percentage around 26%, which is pretty low.</p>
-<h3 id="3-interactive-visualization">3. Interactive Visualization</h3>
-<p>For the basic visualization part, we will use the web-based version of StarSPIRE [10] that Yali Bian developed to visualize the text documents based on ForceSPIRE [10]. However, more interactions will be added to help users explore examples with context generated based on interactive machine learnings.</p>
-<h2 id="timeline">TIMELINE</h2>
-<p>Since we tried to combined works from both HCI and Machine Learning fields, we split the work into two parts: visualization, machine learnings.<br>
-Time	Yali Bian	Liyan LI<br>
-10/18/17	Idea and related works	Idea and related works<br>
-11/1/17	Related Works and related visualization	Dataset to use on our idea<br>
-11/15/17	Basic Visualization design	Scikit-learn algorithms<br>
-11/28/17	Visualization Framework	KNN implementation on dataset<br>
-12/7/17	Merge Visualization to the framework	Merge Machine Learning to the frame work.<br>
-12/12/17	Case study	Evaluation</p>
-<h2 id="references">REFERENCES</h2>
-<ol>
-<li>J.J. Thomas and K.A. Cook, eds., Illuminat- ing the Path: The Research and Development Agenda for Visual Analytics, Nat'l Visualization and Analytics Center, 2005.</li>
-<li>B. Settles, Active Learning, Morgan &amp; Claypool, 2012.</li>
-<li>Simard P Y, Amershi S, Chickering D M, et al. Machine Teaching: A New Paradigm for Building Machine Learning Systems[J]. arXiv preprint arXiv:1707.06742, 2017.</li>
-<li>Fails, J.A., Olsen Jr., D.R. Interactive Machine Learning. IUI 2003, 39-45.</li>
-<li>J.J. Thomas and K.A. Cook, eds., Illuminat- ing the Path: The Research and Development Agenda for Visual Analytics, Nat'l Visualization and Analytics Center, 2005.</li>
-<li>Heimerl F, Koch S, Bosch H, et al. Visual classifier training for text document retrieval[J]. IEEE Transactions on Visualization and Computer Graphics, 2012, 18(12): 2839-2848.</li>
-<li>Amershi S. Designing for effective end-user interaction with machine learning[C]//Proceedings of the 24th annual ACM symposium adjunct on User interface software and technology. ACM, 2011: 47-50.</li>
-<li><a href="http://qwone.com/~jason/20Newsgroups/">http://qwone.com/~jason/20Newsgroups/</a></li>
-<li>Cover T, Hart P. Nearest neighbor pattern classification[J]. IEEE transactions on information theory, 1967, 13(1): 21-27.</li>
-<li>Bradel L, North C, House L. Multi-model semantic interaction for text analytics[C] Visual Analytics Science and Technology (VAST), 2014 IEEE Conference on. IEEE, 2014: 163-172.</li>
-</ol>
-     </div>
+<h3 id="introduction">Introduction</h3>
+
+<p>The optimization algorithm is one of the most important concepts in deep learning to optimize neural networks. people can get various optimization algorithms in every deep learning library easily. These algorithms, however, are often used as black-box optimizers. Thus, it's a little difficult to understand every algorithms strengths and weaknesses. We try 6 different optimization algorithms on different objective functions (convex, non-convex) with detailed visualizations and diagnostics. We hope this would help people comprehend the behavior of different optimization algorithms intuitively and put the algorithms to use in the certain environment. </p>
+
+<h3 id="relatedwork">Related Work</h3>
+
+<p>Before we start the project, we read some relevant papers. Sebastian Ruder in ”An overview of gradient descent optimization algorithms” [8] provides the behavior of different algorithms that will allow using. This paper looks at different variants of the optimization algorithm, introduces the most common optimization algorithms and investigates additional strategies for optimizing gradient descent. It's pity that in its visualization part, there are 2D figures and they cannot interact with users (The paper also post in the author's website). &quot;An Interactive Tutorial on Numerical Optimization&quot;[6] is a pretty good example of visualizing optimization algorithms. However, we find it doesn't conclude some popular algorithms, such as Adagrad, Adam, and BFGS etc.</p>
+
+<p>In addition to the above two articles. What is worth challenging is the learning rate. If learning rate is too small, it would lead slow convergence. If learning rate is too large, it may hinder convergence and cause the loss function to fluctuate around the minimum or even to diverge. So we hope to find a right learning rate for each algorithm. What's more, we may not want to apply same learning rate to all parameters when the data is sparse and the features have different frequencies. Meanwhile, we would hope to update the learning rate for particular ones of them.</p>
+
+<h3 id="ourwork">Our Work</h3>
+
+<p>For this project, we build a GUI that compares different optimization algorithms on different objective functions (convex, non-convex) with detailed visualizations and diagnostics. </p>
+
+<h4 id="implementedoptimizationalgorithmsinclude:">Implemented optimization algorithms include:</h4>
+
+<ul>
+<li>Gradient Descent</li>
+<li>BFGS</li>
+<li>Nesterov accelarated gradient</li>
+<li>Adagrad</li>
+<li>Adam</li>
+<li>RMSprop</li>
+</ul>
+
+<h4 id="objectivestypestobetestedwith:">Objectives types to be tested with:</h4>
+
+<ul>
+<li>convex</li>
+<li>non-convex</li>
+</ul>
+
+<p>We choose two types objective functions (convex and non-convex) to test. We run each optimization algorithm on several typical example of each objective type, for each algorithm (flower function, Himmelblau function, banana function and matyas function), and compare different settings of hyperparameters. Also we support user-defined objectives/initialization and return real time results for users to try more experiments than those provided. And according to the user-defined objective function, we define the 2d contour of the function. As a result, the convergence process can be better visualized.</p>
+
+<p>For the GUI part, we provide an web-based visual analytics system to give users a clear view of the behavior and properties of different optimization algorithms on different objectives, including analysis of the influence of hyperparameters and visual diagnosis of algorithm performance. It also support some extend of customization. For visualization, there are three important parts included for machine learning researchers to explore and interact with “Optimization Algorithms” and “Objective Functions”. </p>
+
+<p>More interactions and views for researchers to select optimization algorithms and input their own objective functions effectively and efficiently. </p>
+
+<p>Multiple and coordinated views are used to explore and compare different optimization algorithms on one specific objective function or different objective functions on one optimization algorithms.
+More visual clues/hints are showed to recommend researchers about the status of searching loops, which would be better for researchers to diagnose the relevant optimization algorithm. </p>
+
+<h3 id="sampleresults">Sample Results</h3>
+
+<p>Next, We used the GUI built to study the effect of different factors, including the convexity of objectives, optimizers, learning rate, weight decay, initialization</p>
+
+<h4 id="compareobjectives">Compare objectives</h4>
+
+<h4 id="compareoptimizers">Compare optimizers</h4>
+
+<h4 id="comparelearningrates">Compare learning rates</h4>
+
+<h4 id="compareweightdecay">Compare weight decay</h4>
+
+<h4 id="compareinitialization">Compare Initialization</h4>
+
+<h4 id="comparemomentum">Compare momentum</h4>
+
+<h3 id="reference">Reference</h3>
+
+<p>[1] Boyd, Stephen, and Lieven Vandenberghe. Convex optimization. Cambridge university press,</p>
+
+<p>2004.</p>
+
+<p>Kingma, Diederik P., and Jimmy Ba. &quot;Adam: A method for stochastic optimization.&quot; arXiv preprint</p>
+
+<p>arXiv:1412.6980(2014).</p>
+
+<p>[2] Zeiler, Matthew D. &quot;ADADELTA: an adaptive learning rate method.&quot; arXiv preprint arXiv:1212.5701</p>
+
+<p>(2012).</p>
+
+<p>[3] Acerbi, L. &amp; Ma, W. J. (2017). Practical Bayesian Optimization for Model Fitting with Bayesian</p>
+
+<p>Adaptive Direct Search. arXiv preprint, arXiv:1705.04405.</p>
+
+<p>[4] Visualize optimization algorithms in MATLAB: https://github.com/lacerbi/optimviz [5]Visualizing and Animating Optimization Algorithms with Matplotlib:</p>
+
+<p>http://tiao.io/notes/visualizing-and-animating-optimization-algorithms-with-matplotlib/</p>
+
+<p>[6] An Interactive Tutorial on Numerical Optimization:</p>
+
+<p>http://www.benfrederickson.com/numerical-optimization/</p>
+
+<p>[7] Virtual Library of Simulation Experiments: https://www.sfu.ca/~ssurjano/optimization.html</p>
+
+<p>[8] Sebastian Ruder “An overview of gradient descent optimization algorithms∗” arXiv:1609.04747</p>
+
+<p>Blog:http://ruder.io/optimizing-gradient-descent/</p>
+</div>
 </div>
 </body>
 </html>
