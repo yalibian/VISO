@@ -33,6 +33,7 @@ Multiple and coordinated views are used to explore and compare different optimiz
 More visual clues/hints are showed to recommend researchers about the status of searching loops, which would be better for researchers to diagnose the relevant optimization algorithm. 
 
 ### Sample Results
+Next, We used the GUI built to study the effect of different factors, including the convexity of objectives, optimizers, learning rate, weight decay, initialization
 
 #### Compare objectives
 
@@ -44,6 +45,7 @@ More visual clues/hints are showed to recommend researchers about the status of 
 
 #### Compare Initialization
 
+#### Compare momentum
 
 
 ### Reference
