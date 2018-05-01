@@ -34,6 +34,18 @@ More visual clues/hints are showed to recommend researchers about the status of 
 
 ### Sample Results
 
+#### Compare objectives
+
+#### Compare optimizers
+
+#### Compare learning rates
+
+#### Compare weight decay
+
+#### Compare Initialization
+
+
+
 ### Reference
 
 [1] Boyd, Stephen, and Lieven Vandenberghe. Convex optimization. Cambridge university press,
