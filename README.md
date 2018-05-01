@@ -20,8 +20,8 @@ For this project, we build a GUI that compares different optimization algorithms
 - RMSprop
 
 #### Objectives types to be tested with:
-- convex
-- non-convex 
+- Convex
+- Non-convex 
 
 We choose two types objective functions (convex and non-convex) to test. We run each optimization algorithm on several typical example of each objective type, for each algorithm  (flower function, Himmelblau function, banana function and matyas function), and compare different settings of hyperparameters. Also we support user-defined objectives/initialization and return real time results for users to try more experiments than those provided. And according to the user-defined objective function, we define the 2d contour of the function. As a result, the convergence process can be better visualized.
 
